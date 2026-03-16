@@ -7,121 +7,180 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --green:#1D9E75;--green-dark:#085041;--green-light:#E1F5EE;--green-mid:#9FE1CB;
+  /* ── MYB 브랜드 컬러 ── */
+  --blue:      #426ab3;   /* 메인  — CTA·선택·강조 */
+  --blue-dark: #2d4f8a;   /* 메인 다크 — 호버·짙은 텍스트 */
+  --blue-light:#eef3fb;   /* 메인 라이트 — 선택 배경·칩 */
+  --blue-mid:  #95b7e1;   /* 서브1 — 태그·소프트 액센트 */
+  --gray1:     #cfcece;   /* 서브2 — 테두리·구분선 */
+  --gray2:     #e0e0e0;   /* 서브3 — 매우 연한 배경 */
+  /* ── 멘토 뱃지 ── */
   --purple:#6B3FAB;--purple-light:#F3EEFF;--purple-border:#C9B3F5;
+  /* ── 텍스트·면 ── */
   --text:#1a1a1a;--text2:#5a5a5a;--text3:#888;
-  --bg:#FAFAF8;--surface:#fff;--border:#e8e5df;--radius:12px;
+  --bg:#fafafa;--surface:#fff;
+  --border: var(--gray1);
+  --radius:12px;
 }
+
 body{background:var(--bg);font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;}
 #wrap{width:100%;max-width:440px;}
-.prog{display:flex;gap:5px;margin-bottom:1.25rem;}
-.prog-dot{height:3px;flex:1;border-radius:2px;background:var(--border);}
-.prog-dot.on{background:var(--green);}
-.prog-dot.half{background:var(--green);opacity:.4;}
+
+/* ── 진행 표시 ── */
+.prog-wrap{display:flex;align-items:center;gap:8px;margin-bottom:1.25rem;}
+.prog{display:flex;gap:5px;flex:1;}
+.prog-dot{height:3px;flex:1;border-radius:2px;background:var(--gray2);}
+.prog-dot.on{background:var(--blue);}
+.prog-dot.half{background:var(--blue-mid);}
+.prog-label{font-size:11px;color:var(--text3);white-space:nowrap;font-weight:600;}
+
+/* ── 공통 텍스트 ── */
 .sc-title{font-size:19px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.4;}
-.sc-sub{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1.25rem;}
-.tip{background:var(--green-light);border-left:2.5px solid var(--green);border-radius:0 8px 8px 0;padding:.65rem .9rem;font-size:12px;color:var(--green-dark);line-height:1.6;margin-bottom:1rem;}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.25rem;}
-.card{border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem .7rem;cursor:pointer;background:var(--surface);text-align:center;transition:border-color .12s,background .12s;}
-.card:hover{background:#f5f5f2;}
-.card.sel{border-width:2px;}
-.c-ico{font-size:20px;display:block;margin-bottom:5px;}
-.c-lbl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
-.c-eg{font-size:11px;color:var(--text3);line-height:1.5;}
-.btn-main{width:100%;padding:14px;border-radius:var(--radius);border:none;font-size:14px;font-weight:700;cursor:pointer;color:white;background:var(--green);transition:opacity .12s,transform .1s;}
+.sc-sub{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1.1rem;}
+.step-hint{font-size:11px;color:var(--blue-dark);background:var(--blue-light);padding:3px 9px;border-radius:100px;display:inline-block;margin-bottom:.65rem;font-weight:600;}
+
+/* ── 버튼 ── */
+.btn-main{width:100%;padding:14px;border-radius:var(--radius);border:none;font-size:14px;font-weight:700;cursor:pointer;color:white;background:var(--blue);transition:opacity .12s,transform .1s;}
 .btn-main:disabled{opacity:.28;cursor:not-allowed;}
-.btn-main:not(:disabled):hover{opacity:.9;}
+.btn-main:not(:disabled):hover{background:var(--blue-dark);}
 .btn-main:not(:disabled):active{transform:scale(.98);}
-.btn-sec{width:100%;padding:11px;border-radius:var(--radius);border:0.5px solid var(--border);background:#f5f5f2;font-size:13px;color:var(--text2);cursor:pointer;margin-top:.5rem;}
-.btn-sec:hover{background:#eeeeea;}
-.back{background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:0;margin-bottom:1rem;display:flex;align-items:center;gap:4px;}
+.btn-sec{width:100%;padding:11px;border-radius:var(--radius);border:1px solid var(--gray1);background:#f8f8f8;font-size:13px;color:var(--text2);cursor:pointer;margin-top:.5rem;}
+.btn-sec:hover{background:var(--gray2);}
+.back{background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:0;margin-bottom:.85rem;display:flex;align-items:center;gap:4px;}
 .back:hover{color:var(--text);}
-.step-hint{font-size:11px;color:var(--green-dark);background:var(--green-light);padding:3px 9px;border-radius:100px;display:inline-block;margin-bottom:.75rem;font-weight:600;}
-.path-row{border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:8px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;background:var(--surface);}
-.path-row:hover{background:#f5f5f2;}
-.path-row.sel{border:2px solid var(--green);background:var(--green-light);}
+
+/* ── MYB 로고 (SVG 텍스트 재현) ── */
+.myb-logo{display:flex;flex-direction:column;align-items:flex-start;line-height:1;}
+.logo-meet,.logo-your,.logo-beauty{font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:2px;font-family:'Arial Black','Noto Sans KR',sans-serif;}
+.logo-mentoring{font-size:20px;font-weight:700;color:var(--blue);letter-spacing:3px;margin-top:1px;font-family:'Arial','Noto Sans KR',sans-serif;}
+.logo-o{display:inline-flex;align-items:center;justify-content:center;position:relative;}
+.logo-star{color:var(--blue);font-size:24px;line-height:1;vertical-align:middle;}
+
+/* ── 행동 카드 (2열) ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.vcard{border:1.5px solid var(--gray1);border-radius:var(--radius);padding:.8rem .6rem;cursor:pointer;background:var(--surface);text-align:center;transition:all .12s;}
+.vcard:hover{background:var(--blue-light);border-color:var(--blue-mid);}
+.vcard.sel{border-width:2px;border-color:var(--blue);background:var(--blue-light);}
+.v-ico{font-size:22px;display:block;margin-bottom:4px;}
+.v-lbl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.v-tag{font-size:11px;color:var(--text3);}
+/* 선택된 카드는 브랜드 컬러로 — 단, 각 항목 고유 색상도 인라인으로 병행 사용 */
+
+/* ── 분야 카드 (3열) ── */
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:10px;}
+.dcard{border:1.5px solid var(--gray1);border-radius:var(--radius);padding:12px 6px 10px;cursor:pointer;background:var(--surface);text-align:center;transition:all .12s;}
+.dcard:hover{background:var(--blue-light);border-color:var(--blue-mid);transform:translateY(-1px);box-shadow:0 2px 8px rgba(66,106,179,.1);}
+.dcard:active{transform:scale(.97);}
+.dcard.sel{border-width:2px;}
+.d-ico{font-size:24px;display:block;margin-bottom:5px;}
+.d-lbl{font-size:11px;font-weight:700;color:var(--text);line-height:1.3;}
+
+/* ── 선택 설명 패널 ── */
+.sel-panel{border-radius:var(--radius);padding:.9rem 1rem;margin-bottom:1rem;animation:panelIn .2s ease;}
+@keyframes panelIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.sel-panel-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.sel-panel-tagline{font-size:13px;font-weight:600;margin-bottom:6px;line-height:1.4;}
+.sel-panel-desc{font-size:12px;line-height:1.65;margin-bottom:5px;}
+.sel-panel-ex{font-size:11px;opacity:.75;}
+
+/* ── 확인 화면 ── */
+.sentence-box{border:2px solid var(--blue);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;font-size:15px;line-height:2.2;text-align:center;background:var(--blue-light);}
+.hl{font-weight:700;padding:2px 10px;border-radius:100px;}
+
+/* ── 경로 카드 ── */
+.path-row{border:1.5px solid var(--gray1);border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:8px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;background:var(--surface);transition:all .12s;}
+.path-row:hover{background:var(--blue-light);border-color:var(--blue-mid);}
+.path-row.sel{border:2px solid var(--blue);background:var(--blue-light);}
 .path-lbl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
 .path-desc{font-size:12px;color:var(--text2);line-height:1.5;}
-/* ── Career cards v3 ── */
-.ccard{border:1.5px solid var(--border);border-radius:var(--radius);background:var(--surface);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
-.ccard:hover{border-color:#b0c8be;box-shadow:0 2px 8px rgba(0,0,0,.06);}
-.ccard.sel{border:2px solid var(--green);box-shadow:0 2px 12px rgba(29,158,117,.15);}
+
+/* ── 진로 카드 (5단계) ── */
+.ccard{border:1.5px solid var(--gray1);border-radius:var(--radius);background:var(--surface);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.ccard:hover{border-color:var(--blue-mid);box-shadow:0 2px 8px rgba(66,106,179,.1);}
+.ccard.sel{border:2px solid var(--blue);box-shadow:0 2px 12px rgba(66,106,179,.18);}
 .cchead{padding:.9rem 1rem;display:flex;align-items:flex-start;gap:10px;}
 .ccname{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.35;}
-.tag{font-size:11px;padding:2px 8px;border-radius:100px;display:inline-block;margin:2px 2px 0 0;}
+.tag{font-size:11px;padding:2px 8px;border-radius:100px;display:inline-block;margin:2px 2px 0 0;background:var(--blue-light);color:var(--blue);}
 .badge-new{font-size:10px;background:#FFF3CD;color:#856404;padding:1px 6px;border-radius:100px;font-weight:700;vertical-align:middle;margin-left:4px;}
 .badge-mentor{font-size:10px;background:var(--purple-light);color:var(--purple);padding:1px 7px;border-radius:100px;font-weight:700;vertical-align:middle;margin-left:4px;border:1px solid var(--purple-border);}
 .cc-tagline{font-size:12px;color:var(--text2);line-height:1.5;margin-top:5px;font-style:italic;}
 .cc-sel-mark{width:24px;height:24px;border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:background .15s;}
-.cc-sel-mark.on{background:var(--green);color:white;}
-.cc-sel-mark.off{border:1.5px solid #d0cdc7;}
-.cc-toggle{padding:7px 1rem;border-top:0.5px solid #f0ede7;font-size:11px;color:#888;display:flex;align-items:center;gap:4px;background:#fafaf8;}
-.ccbody{padding:.85rem 1rem;border-top:0.5px solid var(--border);}
+.cc-sel-mark.on{background:var(--blue);color:white;}
+.cc-sel-mark.off{border:1.5px solid var(--gray1);}
+.cc-toggle{padding:7px 1rem;border-top:0.5px solid var(--gray2);font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px;background:#fafafa;}
+.ccbody{padding:.85rem 1rem;border-top:1px solid var(--gray2);}
 .info-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:.65rem;}
 .info-ico{font-size:12px;flex-shrink:0;margin-top:1px;}
 .info-lbl{font-size:12px;font-weight:600;color:var(--text2);min-width:58px;flex-shrink:0;}
 .info-txt{font-size:12px;color:var(--text);line-height:1.55;}
-.mentor-link{display:flex;align-items:center;justify-content:space-between;background:#f5f5f2;border:0.5px solid var(--border);border-radius:8px;padding:.65rem .85rem;margin-top:.65rem;cursor:pointer;font-size:12px;color:var(--text2);text-decoration:none;}
-.mentor-link:hover{border-color:#ccc;}
+.mentor-link{display:flex;align-items:center;justify-content:space-between;background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:8px;padding:.65rem .85rem;margin-top:.65rem;cursor:pointer;font-size:12px;color:var(--blue-dark);text-decoration:none;}
+.mentor-link:hover{background:#ddeaf8;}
 .mentor-box{background:var(--purple-light);border:1px solid var(--purple-border);border-radius:8px;padding:.75rem .9rem;margin-top:.65rem;}
-.confirm-section{background:#f8f8f5;border:0.5px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:1rem;}
-.conf-item{display:flex;align-items:flex-start;gap:10px;padding:.65rem 0;border-bottom:0.5px solid var(--border);}
-.conf-item:last-child{border-bottom:none;}
-.conf-num{background:var(--green);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
-.conf-lbl{font-size:12px;color:var(--text2);margin-bottom:3px;}
-.conf-val{font-size:14px;font-weight:700;color:var(--text);}
-.sentence-box{border:2px solid var(--green);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:1rem;font-size:14px;line-height:2.1;text-align:center;background:var(--green-light);}
-.hl{font-weight:700;padding:2px 10px;border-radius:100px;}
-.final-card{border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:.75rem;}
-.srow{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 1.25rem;border-bottom:0.5px solid var(--border);font-size:13px;}
+
+/* ── 최종 결과 ── */
+.final-card{border:1px solid var(--gray1);border-radius:var(--radius);overflow:hidden;margin-bottom:.75rem;}
+.srow{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 1.25rem;border-bottom:1px solid var(--gray2);font-size:13px;}
 .srow:last-child{border-bottom:none;}
 .skey{color:var(--text2);}
 .sval{font-weight:600;color:var(--text);text-align:right;max-width:62%;}
-.intro-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:.65rem;}
-.intro-ico{width:28px;height:28px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
-.myb-cta{display:flex;align-items:center;background:var(--green);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.75rem;text-decoration:none;color:white;gap:12px;transition:opacity .12s;}
-.myb-cta:hover{opacity:.9;}
-.myb-cta-ico{font-size:28px;flex-shrink:0;}
+.myb-cta{display:flex;align-items:center;background:var(--blue);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.75rem;text-decoration:none;color:white;gap:12px;transition:background .12s;}
+.myb-cta:hover{background:var(--blue-dark);}
+.myb-cta-ico{font-size:26px;flex-shrink:0;}
 .myb-cta-txt{flex:1;}
 .myb-cta-title{font-size:15px;font-weight:700;margin-bottom:3px;}
 .myb-cta-sub{font-size:11px;opacity:.85;line-height:1.4;}
+
+/* ── 인트로 플로우 아이콘 ── */
+.flow-steps{display:flex;align-items:center;justify-content:center;gap:0;margin:1rem 0 .85rem;}
+.flow-step{text-align:center;flex:1;}
+.flow-step-ico{font-size:24px;display:block;margin-bottom:4px;}
+.flow-step-lbl{font-size:10px;color:var(--text2);font-weight:600;line-height:1.3;}
+.flow-arrow{color:var(--gray1);font-size:16px;flex-shrink:0;margin-bottom:16px;}
+
+/* ── 캐릭터 + 컨페티 (최종 화면) ── */
+.celebrate-wrap{position:relative;text-align:center;margin:1rem 0 .5rem;}
+@keyframes bounce{0%,100%{transform:translateY(0);}40%{transform:translateY(-10px);}70%{transform:translateY(-5px);}}
+.char-svg{animation:bounce 2s ease-in-out infinite;}
+@keyframes popIn{from{opacity:0;transform:scale(.7);}to{opacity:1;transform:scale(1);}}
+.celebrate-msg{animation:popIn .4s ease;}
+.confetti-dot{position:absolute;border-radius:50%;animation:fall linear infinite;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(120px) rotate(360deg);opacity:0;}}
 </style>
 </head>
 <body>
 <div id="wrap"><div id="myb"></div></div>
 <script>
-/* ───────────── 행동 키워드 (V) ───────────── */
+/* ───────── 행동 키워드 (V) ───────── */
 const V=[
-  {id:'make',    lbl:'만들다',  e:'🔨', tagline:'뭔가를 직접 만드는 게 즐거운 사람',      desc:'아이디어를 현실로 만들어내는 걸 좋아해요. 그림 그리기, 코딩, 요리, 공예처럼 손이나 머리로 직접 무언가를 만들 때 뿌듯함을 느끼는 사람이에요.', ex:'예) 레고 조립, 요리 실험, 앱 만들기, 악기 연주', c:'#993C1D', bg:'#FAECE7'},
-  {id:'connect', lbl:'연결하다', e:'🔗', tagline:'사람과 아이디어 사이의 다리 역할',       desc:'서로 다른 사람들, 서로 다른 아이디어를 이어주는 걸 잘하고 즐겨요. 친구들 사이에서 자연스럽게 중간 역할을 하는 사람이에요.',              ex:'예) 친구 소개, 팀 프로젝트 조율, 커뮤니티 활동',  c:'#0F6E56', bg:'#E1F5EE'},
-  {id:'care',    lbl:'돌보다',  e:'🌿', tagline:'누군가를 보살피고 힘이 되어주는 사람',   desc:'사람, 동물, 자연을 챙기는 게 자연스러운 사람이에요. 친구가 힘들 때 옆에 있어주고 싶거나, 환경을 지키고 싶다는 마음이 드는 사람이에요.',    ex:'예) 반 친구 도와주기, 동물 봉사, 환경 캠페인 참여', c:'#3B6D11', bg:'#EAF3DE'},
-  {id:'share',   lbl:'알리다',  e:'📣', tagline:'내 생각을 세상에 전달하고 싶은 사람',    desc:'내가 알고 있는 것, 중요하다고 생각하는 것들을 다른 사람들에게 전하고 싶어요. 글쓰기, 말하기, 영상 만들기로 세상에 이야기하는 게 즐거운 사람이에요.', ex:'예) SNS 포스팅, 학교 발표, 유튜브 영상, 학교 신문', c:'#854F0B', bg:'#FAEEDA'},
-  {id:'explore', lbl:'탐구하다', e:'🔍', tagline:'"왜?" "어떻게?"를 자주 묻는 사람',      desc:'모르는 걸 파고들어 진실을 찾아내는 게 재미있어요. 책이나 자료를 찾아보거나, 실험하고 관찰하면서 답을 찾는 과정이 즐거운 사람이에요.',    ex:'예) 과학 탐구, 역사 공부, 데이터 분석, 독서',      c:'#185FA5', bg:'#E6F1FB'},
-  {id:'manage',  lbl:'운영하다', e:'⚙️', tagline:'계획하고 이끄는 걸 좋아하는 사람',     desc:'체계적으로 계획을 세우고 팀을 이끄는 게 자연스러운 사람이에요. 프로젝트를 잘 정리해서 완성하거나, 모두가 잘 움직일 수 있게 조율하는 역할이 뿌듯한 사람이에요.', ex:'예) 반장·학급 임원, 행사 기획, 동아리 운영', c:'#3C3489', bg:'#EEEDFE'},
+  {id:'make',    lbl:'만들다',  e:'🔨', tagline:'뭔가를 직접 만드는 게 즐거운 사람', desc:'아이디어를 현실로 만들어내는 걸 좋아해요. 그림 그리기, 코딩, 요리, 공예처럼 손이나 머리로 직접 무언가를 만들 때 뿌듯함을 느끼는 사람이에요.', ex:'예) 레고 조립, 요리 실험, 앱 만들기, 악기 연주', c:'#993C1D', bg:'#FAECE7'},
+  {id:'connect', lbl:'연결하다', e:'🔗', tagline:'사람과 아이디어 사이의 다리 역할', desc:'서로 다른 사람들, 서로 다른 아이디어를 이어주는 걸 잘하고 즐겨요. 친구들 사이에서 자연스럽게 중간 역할을 하는 사람이에요.', ex:'예) 친구 소개, 팀 프로젝트 조율, 커뮤니티 활동', c:'#0F6E56', bg:'#E1F5EE'},
+  {id:'care',    lbl:'돌보다',  e:'🌿', tagline:'누군가를 보살피고 힘이 되어주는 사람', desc:'사람, 동물, 자연을 챙기는 게 자연스러운 사람이에요. 친구가 힘들 때 옆에 있어주고 싶거나, 환경을 지키고 싶다는 마음이 드는 사람이에요.', ex:'예) 반 친구 도와주기, 동물 봉사, 환경 캠페인 참여', c:'#3B6D11', bg:'#EAF3DE'},
+  {id:'share',   lbl:'알리다',  e:'📣', tagline:'내 생각을 세상에 전달하고 싶은 사람', desc:'내가 알고 있는 것, 중요하다고 생각하는 것들을 다른 사람들에게 전하고 싶어요. 글쓰기, 말하기, 영상 만들기로 세상에 이야기하는 게 즐거운 사람이에요.', ex:'예) SNS 포스팅, 학교 발표, 유튜브 영상, 학교 신문', c:'#854F0B', bg:'#FAEEDA'},
+  {id:'explore', lbl:'탐구하다', e:'🔍', tagline:'"왜?" "어떻게?"를 자주 묻는 사람', desc:'모르는 걸 파고들어 진실을 찾아내는 게 재미있어요. 책이나 자료를 찾아보거나, 실험하고 관찰하면서 답을 찾는 과정이 즐거운 사람이에요.', ex:'예) 과학 탐구, 역사 공부, 데이터 분석, 독서', c:'#185FA5', bg:'#E6F1FB'},
+  {id:'manage',  lbl:'운영하다', e:'⚙️', tagline:'계획하고 이끄는 걸 좋아하는 사람', desc:'체계적으로 계획을 세우고 팀을 이끄는 게 자연스러운 사람이에요. 프로젝트를 잘 정리해서 완성하거나, 모두가 잘 움직일 수 있게 조율하는 역할이 뿌듯한 사람이에요.', ex:'예) 반장·학급 임원, 행사 기획, 동아리 운영', c:'#3C3489', bg:'#EEEDFE'},
 ];
 
-/* ───────────── 관심 분야 (D) — 9개 ───────────── */
+/* ───────── 관심 분야 (D) 9개 ───────── */
 const D=[
-  {id:'safety',     lbl:'안전&생명',      e:'🛡',  tagline:'사람의 생명과 안전을 지키는 일에 끌려요',         desc:'의료, 소방, 구조, 보건처럼 위기 상황에서 사람의 생명을 지키고 안전한 사회를 만드는 일에 관심이 있어요.',                         ex:'예) 응급처치 관심, 의료 드라마, 안전 장비 탐구',       c:'#8B2020', bg:'#FDECEA'},
-  {id:'sports',     lbl:'스포츠&퍼포먼스', e:'🏃', tagline:'운동하고 경기에서 최고를 보여주는 일에 끌려요',     desc:'스포츠, 체육, e스포츠처럼 신체와 퍼포먼스로 최고를 추구하거나, 선수·팀을 돕는 일에 관심이 있어요.',                             ex:'예) 운동, 트레이닝, e스포츠, 스포츠 중계 관심',        c:'#993C1D', bg:'#FAECE7'},
-  {id:'food',       lbl:'음식&자연',      e:'🌱',  tagline:'먹거리·자연·환경에 관심이 많아요',                desc:'요리하거나 식재료를 탐구하는 것, 또는 자연과 환경 문제에 관심이 많아요.',                                                         ex:'예) 요리, 농사, 환경 보호, 식품 탐구',                 c:'#3B6D11', bg:'#EAF3DE'},
-  {id:'expression', lbl:'꾸밈&표현',      e:'✨',  tagline:'아름다움을 만들고 무대에서 빛나고 싶어요',          desc:'패션, 메이크업, 음악, 연기처럼 눈에 보이는 아름다움을 만들거나 무대에서 자신을 표현하는 것에 흥미가 있어요.',                       ex:'예) 그림, 패션 코디, 뷰티, 댄스, 음악 활동',           c:'#72243E', bg:'#FBEAF0'},
-  {id:'words',      lbl:'말&글&법',       e:'💬',  tagline:'생각하고, 쓰고, 말로 세상을 바꾸고 싶어요',        desc:'글쓰기, 말하기, 법과 규칙처럼 언어와 논리로 세상에 영향을 미치는 일에 관심이 있어요.',                                            ex:'예) 글쓰기, 토론, 독서, 법 이야기, 뉴스',              c:'#185FA5', bg:'#EAF4FD'},
-  {id:'tech',       lbl:'기술&디지털',    e:'💻',  tagline:'디지털 세계와 기술에 끌려요',                      desc:'코딩, 앱, 게임, AI처럼 기술과 디지털 세계가 어떻게 돌아가는지 알고 싶고 직접 만들어보고 싶어요.',                                  ex:'예) 코딩, 게임 개발, 유튜브 영상 편집, AI 체험',        c:'#3C3489', bg:'#EEEDFE'},
-  {id:'space',      lbl:'공간&재료',      e:'🏗',  tagline:'공간을 디자인하거나 재료를 다루는 걸 좋아해요',     desc:'건축, 도예, 목공처럼 물리적인 공간과 재료를 다루는 것에 흥미가 있어요.',                                                         ex:'예) 집 꾸미기, 미니어처, 도예, 건물 구조 관심',        c:'#854F0B', bg:'#FAEEDA'},
-  {id:'people',     lbl:'사람&관계',      e:'🤝',  tagline:'사람들과 함께하고 세상을 바꾸는 일에 관심이 있어요', desc:'누군가를 가르치거나, 커뮤니티를 만들거나, 사회 문제를 함께 해결하는 것에 관심이 있어요.',                                        ex:'예) 친구 멘토링, 봉사활동, 사회적 프로젝트',            c:'#085041', bg:'#E1F5EE'},
-  {id:'economy',    lbl:'돈&경제',        e:'💰',  tagline:'돈과 물건의 흐름을 설계하는 일에 관심이 있어요',   desc:'금융, 투자, 경제처럼 돈과 자원이 어떻게 흐르는지 이해하고 더 좋은 경제 시스템을 만드는 일에 관심이 있어요.',                       ex:'예) 주식·경제 뉴스, 창업, 금융 공부',                  c:'#7A5000', bg:'#FFF8E1'},
+  {id:'safety',     lbl:'안전&생명',      e:'🛡',  tagline:'생명과 안전을 지키는 일에 끌려요', desc:'의료, 소방, 구조처럼 위기 상황에서 사람의 생명을 지키고 안전한 사회를 만드는 일에 관심이 있어요.', ex:'예) 응급처치 관심, 의료 드라마, 안전 장비 탐구', c:'#8B2020', bg:'#FDECEA'},
+  {id:'sports',     lbl:'스포츠&퍼포먼스', e:'🏃', tagline:'운동과 경기에서 최고를 보여주는 일', desc:'스포츠, 체육, e스포츠처럼 신체와 퍼포먼스로 최고를 추구하거나, 선수와 팀을 돕는 일에 관심이 있어요.', ex:'예) 운동, 트레이닝, e스포츠, 스포츠 중계 관심', c:'#993C1D', bg:'#FAECE7'},
+  {id:'food',       lbl:'음식&자연',      e:'🌱',  tagline:'먹거리·자연·환경에 관심이 많아요', desc:'요리하거나 식재료를 탐구하는 것, 또는 자연과 환경 문제에 관심이 많아요.', ex:'예) 요리, 농사, 환경 보호, 식품 탐구', c:'#3B6D11', bg:'#EAF3DE'},
+  {id:'expression', lbl:'꾸밈&표현',      e:'✨',  tagline:'아름다움을 만들고 무대에서 빛나고 싶어요', desc:'패션, 메이크업, 음악, 연기처럼 눈에 보이는 아름다움을 만들거나 무대에서 자신을 표현하는 것에 흥미가 있어요.', ex:'예) 그림, 패션 코디, 뷰티, 댄스, 음악 활동', c:'#72243E', bg:'#FBEAF0'},
+  {id:'words',      lbl:'말&글&법',       e:'💬',  tagline:'생각을 쓰고 말로 세상을 바꾸고 싶어요', desc:'글쓰기, 말하기, 법과 규칙처럼 언어와 논리로 세상에 영향을 미치는 일에 관심이 있어요.', ex:'예) 글쓰기, 토론, 독서, 법 이야기, 뉴스', c:'#185FA5', bg:'#EAF4FD'},
+  {id:'tech',       lbl:'기술&디지털',    e:'💻',  tagline:'디지털 세계와 기술에 끌려요', desc:'코딩, 앱, 게임, AI처럼 기술과 디지털 세계가 어떻게 돌아가는지 알고 싶고 직접 만들어보고 싶어요.', ex:'예) 코딩, 게임 개발, 유튜브 영상 편집, AI 체험', c:'#3C3489', bg:'#EEEDFE'},
+  {id:'space',      lbl:'공간&재료',      e:'🏗',  tagline:'공간을 디자인하고 재료를 다루는 걸 좋아해요', desc:'건축, 도예, 목공처럼 물리적인 공간과 재료를 다루는 것에 흥미가 있어요.', ex:'예) 집 꾸미기, 미니어처, 도예, 건물 구조 관심', c:'#854F0B', bg:'#FAEEDA'},
+  {id:'people',     lbl:'사람&관계',      e:'🤝',  tagline:'사람들과 함께하고 세상을 바꾸는 일', desc:'누군가를 가르치거나, 커뮤니티를 만들거나, 사회 문제를 함께 해결하는 것에 관심이 있어요.', ex:'예) 친구 멘토링, 봉사활동, 사회적 프로젝트', c:'#085041', bg:'#E1F5EE'},
+  {id:'economy',    lbl:'돈&경제',        e:'💰',  tagline:'돈과 경제의 흐름을 설계하는 일에 끌려요', desc:'금융, 투자, 경제처럼 돈과 자원이 어떻게 흐르는지 이해하고 더 좋은 경제 시스템을 만드는 일에 관심이 있어요.', ex:'예) 주식·경제 뉴스, 창업, 금융 공부', c:'#7A5000', bg:'#FFF8E1'},
 ];
 
-/* ───────────── 진로 경로 (P) ───────────── */
+/* ───────── 진로 경로 (P) ───────── */
 const P=[
-  {id:'univ',    lbl:'대학·대학원 진학',   e:'🎓', d:'체계적으로 깊이 배운 뒤 전문가가 되고 싶어', next:'관련 학과 입시 준비 → 전문 자격증 취득'},
-  {id:'job',     lbl:'바로 취업',          e:'💼', d:'현장에서 직접 부딪히며 경험을 쌓고 싶어',   next:'포트폴리오 준비 → 인턴십 또는 신입 지원'},
-  {id:'startup', lbl:'창업',              e:'🚀', d:'내가 직접 무언가를 만들어서 세상에 내놓고 싶어', next:'아이디어 테스트 → 소규모 프로젝트 시작'},
-  {id:'creator', lbl:'독립 크리에이터',    e:'🎨', d:'내 콘텐츠와 브랜드로 자유롭게 활동하고 싶어', next:'채널·포트폴리오 구축 → 팔로워·팬베이스 키우기'},
+  {id:'univ',    lbl:'대학·대학원 진학', e:'🎓', d:'체계적으로 깊이 배운 뒤 전문가가 되고 싶어', next:'관련 학과 입시 준비 → 전문 자격증 취득'},
+  {id:'job',     lbl:'바로 취업',        e:'💼', d:'현장에서 직접 부딪히며 경험을 쌓고 싶어', next:'포트폴리오 준비 → 인턴십 또는 신입 지원'},
+  {id:'startup', lbl:'창업',            e:'🚀', d:'내가 직접 무언가를 만들어서 세상에 내놓고 싶어', next:'아이디어 테스트 → 소규모 프로젝트 시작'},
+  {id:'creator', lbl:'독립 크리에이터',  e:'🎨', d:'내 콘텐츠와 브랜드로 자유롭게 활동하고 싶어', next:'채널·포트폴리오 구축 → 팔로워·팬베이스 키우기'},
 ];
 
-/* ───────────── 직업 데이터 (CM) — 9분야 × 6행동 = 54조합, 각 3개 ───────────── */
 /* ── CM v3: 9 domains × 6 verbs × 3 careers each ── */
 /* Each career: n, tagline, tags, isNew, isMentor, desc, do, fit, figure */
 const CM={
@@ -557,6 +616,7 @@ const CM={
        figure:'무신사 한문일 대표, 젝시믹스 창업자'},
     ],
   },
+
 
   /* ────────────────────────────────────────────────
      💬 말&글&법 (words)
@@ -1099,6 +1159,7 @@ const CM={
   },
 };
 
+
 const CM_DEFAULT=(d,v)=>[{n:`${(D.find(x=>x.id===d)||{lbl:''}).lbl} × ${(V.find(x=>x.id===v)||{lbl:''}).lbl} 관련 직업`,tagline:'곧 업데이트될 예정이에요',tags:['준비 중'],isNew:false,isMentor:false,desc:'이 조합의 진로 정보는 곧 업데이트될 예정이에요.',do:'다양한 활동과 경험을 통해 탐구해보세요.',fit:'이 조합에 관심 있는 모든 사람',figure:'멘토 탐색 중'}];
 const MYB_MENTOR_BASE_URL='https://myb-mentoring.kr/mentors';
 const MYB_HOME_URL='https://myb-mentoring.kr';
@@ -1110,89 +1171,154 @@ const gp=id=>P.find(x=>x.id===id);
 const getCareers=(d,v)=>(CM[d]||{})[v]||CM_DEFAULT(d,v);
 const app=document.getElementById('myb');
 
+/* ── 진행 표시 (단계 숫자 포함) ── */
+const STEP_NAMES=['','행동 키워드','관심 분야','조합 확인','진로 경로','진로 추천'];
 function prog(step){
-  return `<div class="prog">${[0,1,2,3,4].map(i=>`<div class="prog-dot ${i<step?'on':i===step?'half':''}"></div>`).join('')}</div>`;
+  const label = step>=1 && step<=5 ? `${step} / 5` : '';
+  return `<div class="prog-wrap">
+    <div class="prog">${[0,1,2,3,4].map(i=>`<div class="prog-dot ${i<step?'on':i===step?'half':''}"></div>`).join('')}</div>
+    ${label?`<span class="prog-label">${label}</span>`:''}
+  </div>`;
 }
 
+/* ════════════════════════════════════════
+   1. 인트로
+════════════════════════════════════════ */
 function rIntro(){
   return `<div style="padding:.5rem 0;">
-    <div style="text-align:center;margin-bottom:1.25rem;">
-      <div style="font-size:44px;margin-bottom:.65rem;">🌱</div>
-      <h1 style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:.5rem;">내 꿈의 방향 찾기</h1>
-      <p style="font-size:13px;color:#5a5a5a;line-height:1.75;">진로는 꼭 하나의 직업이 아니어도 돼요.<br>내가 어떤 사람인지를 먼저 알아보는 시간이에요.</p>
+
+    <!-- MYB 로고 -->
+    <div style="text-align:center;margin-bottom:1.5rem;padding-top:.5rem;">
+      <img src="data:image/png;base64,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" alt="MEET YOUR BEAUTY MENTORING" style="height:80px;width:auto;display:inline-block;">
     </div>
-    <div style="background:#f8f8f5;border-radius:12px;border:0.5px solid #e8e5df;padding:1.1rem;margin-bottom:1.25rem;">
-      <p style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:.85rem;">이렇게 진행돼요</p>
-      ${[['🔨','행동 키워드 선택','내가 좋아하는 방식을 골라요'],['🌍','관심 분야 선택','흥미 있는 세계를 골라요'],['✅','나만의 문장 완성','두 선택을 합쳐봐요'],['🛤️','진로 경로 선택','내 스타일에 맞는 길을 골라요'],['✨','진로 후보 3가지 & 멘토 연결','나에게 맞는 직업과 멘토를 만나요']].map(([ico,t,d])=>`<div class="intro-step"><div class="intro-ico">${ico}</div><div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">${t}</div><div style="font-size:11px;color:#888;">${d}</div></div></div>`).join('')}
-      <div style="border-top:0.5px solid #e8e5df;margin-top:.65rem;padding-top:.75rem;font-size:11px;color:#888;">⏱ 약 3~5분 소요 &nbsp;·&nbsp; 언제든지 다시 해볼 수 있어요</div>
+
+    <div style="text-align:center;margin-bottom:1.1rem;">
+      <h1 style="font-size:21px;font-weight:800;color:#1a1a1a;margin-bottom:.5rem;">내 꿈의 방향 찾기</h1>
+      <p style="font-size:13px;color:#5a5a5a;line-height:1.7;">진로는 꼭 하나의 직업이 아니어도 돼요.<br>내가 어떤 사람인지를 먼저 알아보는 시간이에요.</p>
     </div>
+
+    <div style="background:#f5f7fc;border-radius:12px;border:0.5px solid var(--gray1);padding:1rem 1rem .85rem;margin-bottom:1.25rem;">
+      <p style="font-size:11px;font-weight:700;color:var(--blue);text-align:center;margin-bottom:.75rem;letter-spacing:.5px;">이렇게 진행돼요</p>
+      <div class="flow-steps">
+        <div class="flow-step"><span class="flow-step-ico">🔨</span><div class="flow-step-lbl">좋아하는<br>방식 선택</div></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><span class="flow-step-ico">🌍</span><div class="flow-step-lbl">관심<br>분야 선택</div></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><span class="flow-step-ico">🛤️</span><div class="flow-step-lbl">진로<br>경로 선택</div></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><span class="flow-step-ico">✨</span><div class="flow-step-lbl">진로 카드<br>완성!</div></div>
+      </div>
+      <p style="font-size:11px;color:#aaa;text-align:center;">⏱ 약 3~5분 &nbsp;·&nbsp; 언제든 다시 해볼 수 있어요</p>
+    </div>
+
     <button class="btn-main" onclick="go(1)">시작하기 →</button>
     <p style="font-size:11px;color:#aaa;text-align:center;margin-top:.75rem;">MYB 멘토링 · 오리진디자인 × 아모레퍼시픽 CSR</p>
   </div>`;
 }
 
+/* ════════════════════════════════════════
+   2. 행동 키워드 — 2열 카드, 선택하면 설명 패널
+════════════════════════════════════════ */
 function rVerb(){
-  return `${prog(0)}
+  const sel=gv(s.verb);
+  return `${prog(1)}
     <span class="step-hint">1단계 · 행동 키워드 선택</span>
     <p class="sc-title">나는 이런 걸 할 때 신나요</p>
-    <p class="sc-sub">아래 6가지 중에서 "이게 나야!" 싶은 걸 하나 골라주세요.<br>완벽하지 않아도 괜찮아요, 가장 가까운 걸 직관적으로 골라봐요.</p>
-    <div class="tip">💡 고르기 어려울 땐 예시를 보고 골라봐요. 지금 잘 못해도 관심 있으면 OK!</div>
-    <div class="grid2">${V.map(v=>`<div class="card${s.verb===v.id?' sel':''}" style="${s.verb===v.id?`border-color:${v.c};background:${v.bg};`:''}" onclick="sv('${v.id}')"><span class="c-ico">${v.e}</span><div class="c-lbl">${v.lbl}</div><div style="font-size:11px;font-weight:600;color:${s.verb===v.id?v.c:'#888'};margin-bottom:4px;">${v.tagline}</div><div class="c-eg">${v.ex}</div></div>`).join('')}</div>
-    ${s.verb?`<div class="tip">"${gv(s.verb)?.lbl}" 선택됨 ✓<br>${gv(s.verb)?.desc}</div>`:''}
-    <button class="btn-main" ${!s.verb?'disabled':''} onclick="go(2)">다음으로 →</button>`;
+    <p class="sc-sub">6가지 중에서 "이게 나야!" 싶은 걸 하나 골라요.<br><span style="color:#888;font-size:12px;">고르면 아래에 자세한 설명이 나와요.</span></p>
+    <div class="grid2">${V.map(v=>`
+      <div class="vcard${s.verb===v.id?' sel':''}" style="${s.verb===v.id?`border-color:${v.c};background:${v.bg};`:''}" onclick="sv('${v.id}')">
+        <span class="v-ico">${v.e}</span>
+        <div class="v-lbl">${v.lbl}</div>
+        <div class="v-tag">${v.tagline}</div>
+      </div>`).join('')}
+    </div>
+    ${sel?`<div class="sel-panel" style="background:${sel.bg};border:1.5px solid ${sel.c}40;">
+      <div class="sel-panel-title" style="color:${sel.c};">${sel.e} ${sel.lbl}</div>
+      <div class="sel-panel-desc">${sel.desc}</div>
+      <div class="sel-panel-ex" style="color:${sel.c};">${sel.ex}</div>
+    </div>`:'<div style="height:8px;"></div>'}
+    <button class="btn-main" ${!s.verb?'disabled':''} onclick="go(2)">${s.verb?`"${sel?.lbl}" 선택 — 다음으로 →`:'하나를 골라주세요'}</button>`;
 }
 
+/* ════════════════════════════════════════
+   3. 관심 분야 — 3×3 카드, 선택하면 설명 패널
+════════════════════════════════════════ */
 function rDomain(){
   const v=gv(s.verb);
-  return `${prog(1)}
+  const sel=gd(s.domain);
+  return `${prog(2)}
     <button class="back" onclick="go(1)">← 이전</button>
     <span class="step-hint">2단계 · 관심 분야 선택</span>
     <p class="sc-title">어떤 세계가 끌리나요?</p>
-    <p class="sc-sub">아까 고른 <span style="font-weight:700;color:${v?.c};">"${v?.lbl}"</span>을 어떤 분야에서 하고 싶은지 골라보세요.</p>
-    <div class="tip">💡 지금 잘 못해도 괜찮아요. 관심 있거나 해보고 싶은 세계를 골라요.</div>
-    <div class="grid2">${D.map(d=>`<div class="card${s.domain===d.id?' sel':''}" style="${s.domain===d.id?`border-color:${d.c};background:${d.bg};`:''}" onclick="sd('${d.id}')"><span class="c-ico">${d.e}</span><div class="c-lbl">${d.lbl}</div><div style="font-size:11px;font-weight:600;color:${s.domain===d.id?d.c:'#888'};margin-bottom:4px;">${d.tagline}</div><div class="c-eg">${d.ex}</div></div>`).join('')}</div>
-    ${s.domain?`<div class="tip">"${gd(s.domain)?.lbl}" 선택됨 ✓<br>${gd(s.domain)?.desc}</div>`:''}
-    <button class="btn-main" ${!s.domain?'disabled':''} onclick="go(3)">다음으로 →</button>`;
+    <p class="sc-sub"><span style="font-weight:700;color:${v?.c};">"${v?.lbl}"</span>을 어떤 분야에서 해보고 싶은지 골라봐요.<br><span style="color:#888;font-size:12px;">카드를 탭하면 자세한 설명을 볼 수 있어요.</span></p>
+    <div class="grid3">${D.map(d=>`
+      <div class="dcard${s.domain===d.id?' sel':''}" style="${s.domain===d.id?`border-color:${d.c};background:${d.bg};`:''}" onclick="sd('${d.id}')">
+        <span class="d-ico">${d.e}</span>
+        <div class="d-lbl">${d.lbl}</div>
+        ${s.domain===d.id?`<div style="font-size:10px;color:${d.c};margin-top:3px;font-weight:700;">✓ 선택됨</div>`:''}
+      </div>`).join('')}
+    </div>
+    ${sel?`<div class="sel-panel" style="background:${sel.bg};border:1.5px solid ${sel.c}40;">
+      <div class="sel-panel-title" style="color:${sel.c};">${sel.e} ${sel.lbl}</div>
+      <div class="sel-panel-tagline" style="color:${sel.c};">${sel.tagline}</div>
+      <div class="sel-panel-desc">${sel.desc}</div>
+      <div class="sel-panel-ex" style="color:${sel.c};">${sel.ex}</div>
+    </div>`:'<div style="height:8px;"></div>'}
+    <button class="btn-main" ${!s.domain?'disabled':''} onclick="go(3)">${s.domain?`"${sel?.lbl}" 선택 — 다음으로 →`:'하나를 골라주세요'}</button>`;
 }
 
+/* ════════════════════════════════════════
+   4. 확인 — 문장만 크게
+════════════════════════════════════════ */
 function rConfirm(){
   const v=gv(s.verb),d=gd(s.domain);
-  return `${prog(2)}
+  return `${prog(3)}
     <button class="back" onclick="go(2)">← 이전</button>
-    <span class="step-hint">3단계 · 나만의 문장 완성</span>
-    <p class="sc-title">내 선택을 확인해봐요</p>
-    <p class="sc-sub">두 가지를 골랐어요. 내용을 확인하고 맞으면 계속 진행해요.</p>
-    <div class="confirm-section" style="margin-bottom:1rem;">
-      <div class="conf-item"><div class="conf-num">1</div><div><div class="conf-lbl">행동 키워드 (내가 좋아하는 방식)</div><div class="conf-val">${v?.e} ${v?.lbl} — ${v?.tagline}</div><div style="font-size:11px;color:#888;margin-top:3px;">${v?.desc}</div></div></div>
-      <div class="conf-item"><div class="conf-num">2</div><div><div class="conf-lbl">관심 분야 (내가 끌리는 세계)</div><div class="conf-val">${d?.e} ${d?.lbl} — ${d?.tagline}</div><div style="font-size:11px;color:#888;margin-top:3px;">${d?.desc}</div></div></div>
-    </div>
-    <p style="font-size:12px;color:#888;text-align:center;margin-bottom:.6rem;">두 선택을 합치면 이런 문장이 돼요</p>
+    <span class="step-hint">3단계 · 조합 확인</span>
+    <p class="sc-title">이런 조합이 나왔어요!</p>
+    <p class="sc-sub" style="margin-bottom:.85rem;">두 가지를 합치면 이런 문장이 돼요. 나를 잘 설명하고 있나요?</p>
     <div class="sentence-box">나는 <span class="hl" style="background:${v?.bg};color:${v?.c};">${v?.e} ${v?.lbl}</span> 것을 좋아하는<br><span class="hl" style="background:${d?.bg};color:${d?.c};">${d?.e} ${d?.lbl}</span> 쪽에 관심이 있어요</div>
-    <p style="font-size:11px;color:#888;text-align:center;margin-bottom:1rem;">이 문장이 나를 완벽하게 설명하지 않아도 괜찮아요.<br>지금 이 순간의 나를 보여주는 힌트예요 🌱</p>
+    <div style="display:flex;gap:8px;align-items:flex-start;background:#f8f8f5;border-radius:10px;padding:.8rem 1rem;margin-bottom:1.1rem;">
+      <span style="font-size:16px;flex-shrink:0;margin-top:1px;">💡</span>
+      <p style="font-size:12px;color:#5a5a5a;line-height:1.65;">이 문장이 나를 완벽하게 설명하지 않아도 괜찮아요. 지금 이 순간의 나를 보여주는 힌트예요.</p>
+    </div>
     <div style="display:flex;gap:8px;">
       <button class="btn-sec" style="flex:1;padding:12px;" onclick="go(2)">다시 고를게요</button>
       <button class="btn-main" style="flex:2;" onclick="go(4)">맞아요, 계속할게요 →</button>
     </div>`;
 }
 
+/* ════════════════════════════════════════
+   5. 진로 경로
+════════════════════════════════════════ */
 function rPath(){
-  return `${prog(3)}
+  return `${prog(4)}
     <button class="back" onclick="go(3)">← 이전</button>
     <span class="step-hint">4단계 · 진로 경로 선택</span>
-    <p class="sc-title">꿈을 향한 길, 어떻게 가고 싶어요?</p>
-    <p class="sc-sub">진로로 가는 방법은 여러 가지예요. 가장 관심 있는 길을 골라보세요.<br>지금 확실하지 않아도 괜찮아요.</p>
-    ${P.map(p=>`<div class="path-row${s.path===p.id?' sel':''}" onclick="sp('${p.id}')"><span style="font-size:20px;flex-shrink:0;">${p.e}</span><div><div class="path-lbl">${p.lbl}</div><div class="path-desc">${p.d}</div>${s.path===p.id?`<div style="font-size:11px;color:#0F6E56;margin-top:5px;font-weight:600;">다음 단계: ${p.next}</div>`:''}</div></div>`).join('')}
-    <button class="btn-main" style="margin-top:.75rem;" ${!s.path?'disabled':''} onclick="go(5)">진로 후보 보기 →</button>`;
+    <p class="sc-title">꿈을 향한 길을 골라봐요</p>
+    <p class="sc-sub">진로로 가는 방법은 여러 가지예요. 지금 확실하지 않아도 괜찮아요.</p>
+    ${P.map(p=>`<div class="path-row${s.path===p.id?' sel':''}" onclick="sp('${p.id}')">
+      <span style="font-size:22px;flex-shrink:0;margin-top:2px;">${p.e}</span>
+      <div>
+        <div class="path-lbl">${p.lbl}</div>
+        <div class="path-desc">${p.d}</div>
+        ${s.path===p.id?`<div style="font-size:11px;color:#0F6E56;margin-top:6px;font-weight:600;display:flex;align-items:center;gap:4px;"><span>→</span><span>다음 단계: ${p.next}</span></div>`:''}
+      </div>
+    </div>`).join('')}
+    <button class="btn-main" style="margin-top:.75rem;" ${!s.path?'disabled':''} onclick="go(5)">진로 후보 보러 가기 →</button>`;
 }
 
+/* ════════════════════════════════════════
+   6. 진로 추천 — 3개 카드, 탭=선택, 토글=상세
+════════════════════════════════════════ */
 function rCareers(){
   const v=gv(s.verb),d=gd(s.domain);
   const careers=getCareers(s.domain,s.verb);
-  return `${prog(4)}
+  return `${prog(5)}
     <button class="back" onclick="go(4)">← 이전</button>
     <span class="step-hint">5단계 · 진로 추천</span>
     <p class="sc-title">나에게 맞는 진로 유형은?</p>
-    <p class="sc-sub">${d?.e} <strong>${d?.lbl}</strong> × ${v?.e} <strong>${v?.lbl}</strong> 조합이에요.<br>3가지를 살펴보고 <strong>가장 나다운 것</strong>을 골라봐요.</p>
+    <p class="sc-sub">${d?.e} <strong>${d?.lbl}</strong> × ${v?.e} <strong>${v?.lbl}</strong> 조합이에요.<br>3가지를 살펴보고 가장 나다운 것을 골라봐요.</p>
     ${careers.map((c,i)=>{
       const isSel=s.career===c.n;
       const isExp=s.expanded===i;
@@ -1206,7 +1332,7 @@ function rCareers(){
           <div class="cc-sel-mark ${isSel?'on':'off'}">${isSel?'✓':''}</div>
         </div>
         <div class="cc-toggle" onclick="event.stopPropagation();toggle(${i});">
-          <span style="font-size:11px;">${isExp?'▲ 접기':'▼ 자세히 보기'}</span>
+          <span>${isExp?'▲ 접기':'▼ 자세히 보기'}</span>
         </div>
         ${isExp?`<div class="ccbody">
           <p style="font-size:13px;color:#1a1a1a;line-height:1.65;margin-bottom:.85rem;">${c.desc}</p>
@@ -1214,28 +1340,44 @@ function rCareers(){
           <div class="info-row"><span class="info-ico">💚</span><span class="info-lbl">이런 사람</span><span class="info-txt">${c.fit}</span></div>
           <div class="info-row"><span class="info-ico">🌟</span><span class="info-lbl">대표 인물</span><span class="info-txt">${c.figure}</span></div>
           ${c.isMentor
-            ?`<div class="mentor-box"><div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:4px;">🔮 MYB 멘토 예정이에요</div><div style="font-size:11px;color:#7B5AAB;line-height:1.55;">이 분야의 멘토가 곧 MYB 멘토링에 합류할 예정이에요!<br>기대해 주세요 — 지금 진로를 선택해두면 멘토가 추가될 때 바로 연결돼요.</div></div>`
+            ?`<div class="mentor-box"><div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:4px;">🔮 MYB 멘토 예정이에요</div><div style="font-size:11px;color:#7B5AAB;line-height:1.55;">이 분야의 멘토가 곧 MYB 멘토링에 합류할 예정이에요! 기대해 주세요 🙌</div></div>`
             :`<a class="mentor-link" href="${MYB_MENTOR_BASE_URL}?career=${encodeURIComponent(c.n)}" target="_blank" onclick="event.stopPropagation()"><div><div style="font-weight:600;color:#1a1a1a;font-size:12px;">🧑‍💼 이 진로의 MYB 멘토 보기</div><div style="font-size:11px;margin-top:2px;color:#888;">Meet Your Beauty 멘토링 사이트에서 만나보세요</div></div><span style="color:#888;font-size:13px;">→</span></a>`
           }
         </div>`:''}
       </div>`;
     }).join('')}
-    <div style="margin-top:1.25rem;background:#f8f8f5;border-radius:var(--radius);padding:1rem;border:0.5px solid var(--border);font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:.75rem;">
-      💡 카드를 <strong>탭</strong>하면 선택돼요. <strong>▼ 자세히 보기</strong>를 누르면 더 많은 정보를 확인할 수 있어요.
+    <div style="background:#f8f8f5;border-radius:var(--radius);padding:.85rem 1rem;border:0.5px solid var(--border);font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:.75rem;">
+      💡 카드를 탭하면 선택돼요. <strong>▼ 자세히 보기</strong>로 더 많은 정보를 볼 수 있어요.
     </div>
     <button class="btn-main" ${!s.career?'disabled':''} onclick="go(6)">내 진로 카드 완성하기 →</button>`;
 }
 
+/* ════════════════════════════════════════
+   7. 최종 결과
+════════════════════════════════════════ */
 function rFinal(){
   const v=gv(s.verb),d=gd(s.domain),p=gp(s.path);
   const careers=getCareers(s.domain,s.verb);
   const chosenCareer=careers.find(c=>c.n===s.career)||{isMentor:false};
-  return `<div style="text-align:center;margin-bottom:1.25rem;">
-    <div style="font-size:38px;margin-bottom:.5rem;">🎉</div>
-    <p class="sc-title">진로 카드 완성!</p>
-    <p style="font-size:12px;color:#888;">선생님, 부모님과 함께 이야기해보세요</p>
+  return `
+  <!-- 캐릭터 + 컨페티 축하 영역 -->
+  <div class="celebrate-wrap">
+    <!-- 컨페티 점들 -->
+    <div class="confetti-dot" style="width:7px;height:7px;background:#426ab3;left:12%;top:0;animation-duration:1.8s;animation-delay:0s;"></div>
+    <div class="confetti-dot" style="width:5px;height:5px;background:#95b7e1;left:28%;top:0;animation-duration:2.2s;animation-delay:.3s;"></div>
+    <div class="confetti-dot" style="width:6px;height:6px;background:#cfcece;left:55%;top:0;animation-duration:1.6s;animation-delay:.1s;"></div>
+    <div class="confetti-dot" style="width:8px;height:8px;background:#426ab3;left:72%;top:0;animation-duration:2s;animation-delay:.5s;"></div>
+    <div class="confetti-dot" style="width:5px;height:5px;background:#95b7e1;left:88%;top:0;animation-duration:1.9s;animation-delay:.2s;"></div>
+    <div class="confetti-dot" style="width:6px;height:6px;background:#6B3FAB;left:42%;top:0;animation-duration:2.3s;animation-delay:.4s;"></div>
+    <!-- MYB 캐릭터 원본 이미지 -->
+    <img class="char-svg" src="data:image/png;base64,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" alt="MYB 캐릭터" style="width:110px;height:auto;display:inline-block;">
+    <!-- 축하 메시지 -->
+    <div class="celebrate-msg" style="margin-top:.6rem;">
+      <p style="font-size:17px;font-weight:800;color:var(--blue);line-height:1.4;">진로 카드 완성을 축하해요! 🎉</p>
+      <p style="font-size:12px;color:var(--text2);margin-top:4px;">친구들은 어떤 카드가 나왔는지 서로 비교해봐요! 👀</p>
+    </div>
   </div>
-  <div class="final-card">
+  <div class="final-card" style="margin-top:.75rem;">
     <div style="padding:1rem 1.25rem;background:${d?.bg};">
       <div style="font-size:11px;color:${d?.c};font-weight:600;margin-bottom:3px;">나의 진로 카드</div>
       <div style="font-size:16px;font-weight:700;color:#1a1a1a;">${d?.e} ${d?.lbl} × ${v?.e} ${v?.lbl}</div>
@@ -1253,7 +1395,7 @@ function rFinal(){
     ${chosenCareer.isMentor
       ?`<div style="background:var(--purple-light);border:1.5px solid var(--purple-border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:.65rem;">
           <div style="font-size:13px;font-weight:700;color:var(--purple);margin-bottom:5px;">🔮 <strong>${s.career}</strong> 분야 멘토 — 곧 만날 수 있어요!</div>
-          <div style="font-size:12px;color:#7B5AAB;line-height:1.6;">이 진로의 MYB 멘토가 곧 합류할 예정이에요. 지금 MYB 사이트에서 다른 분야 멘토들을 먼저 만나보고, 알림을 신청해두세요!</div>
+          <div style="font-size:12px;color:#7B5AAB;line-height:1.6;">이 진로의 MYB 멘토가 곧 합류 예정이에요. 지금 다른 분야 멘토들을 먼저 만나보세요!</div>
         </div>`
       :`<a class="mentor-link" href="${MYB_MENTOR_BASE_URL}?career=${encodeURIComponent(s.career)}&domain=${s.domain}&verb=${s.verb}" target="_blank" style="margin-bottom:.65rem;display:flex;">
           <div><div style="font-weight:600;color:#1a1a1a;font-size:12px;">🧑‍💼 <strong>${s.career}</strong> 진로의 MYB 멘토 보기</div><div style="font-size:11px;margin-top:2px;color:#888;">나와 비슷한 진로를 가진 멘토를 만나보세요</div></div>
@@ -1264,7 +1406,7 @@ function rFinal(){
       <div class="myb-cta-ico">👋</div>
       <div class="myb-cta-txt">
         <div class="myb-cta-title">MYB에서 나의 진로 멘토를 만나보세요</div>
-        <div class="myb-cta-sub">Meet Your Beauty 멘토링 사이트에서<br>나에게 딱 맞는 멘토를 직접 구경해요 →</div>
+        <div class="myb-cta-sub">나에게 딱 맞는 멘토를 직접 구경해요 →</div>
       </div>
     </a>
   </div>
@@ -1272,9 +1414,10 @@ function rFinal(){
   <p style="font-size:11px;color:#aaa;text-align:center;margin-top:.75rem;">MYB 멘토링 · 오리진디자인 × 아모레퍼시픽 CSR</p>`;
 }
 
+/* ════ 이벤트 핸들러 ════ */
 function go(step){s.step=step;if(step===5)s.expanded=null;render();}
 function sv(id){s.verb=id;render();}
-function sd(id){s.domain=id;render();}
+function sd(id){s.domain=(s.domain===id?null:id);render();}
 function sp(id){s.path=id;render();}
 function sc(n,e){if(e)e.stopPropagation();s.career=(s.career===n?null:n);render();}
 function toggle(i){s.expanded=s.expanded===i?null:i;render();}
