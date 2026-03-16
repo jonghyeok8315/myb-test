@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MYB 진로 탐색 — Meet Your Beauty Mentoring</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --green:#1D9E75;--green-dark:#085041;--green-light:#E1F5EE;--green-mid:#9FE1CB;
+  --purple:#6B3FAB;--purple-light:#F3EEFF;--purple-border:#C9B3F5;
+  --text:#1a1a1a;--text2:#5a5a5a;--text3:#888;
+  --bg:#FAFAF8;--surface:#fff;--border:#e8e5df;--radius:12px;
+}
+body{background:var(--bg);font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;}
+#wrap{width:100%;max-width:440px;}
+.prog{display:flex;gap:5px;margin-bottom:1.25rem;}
+.prog-dot{height:3px;flex:1;border-radius:2px;background:var(--border);}
+.prog-dot.on{background:var(--green);}
+.prog-dot.half{background:var(--green);opacity:.4;}
+.sc-title{font-size:19px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.4;}
+.sc-sub{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1.25rem;}
+.tip{background:var(--green-light);border-left:2.5px solid var(--green);border-radius:0 8px 8px 0;padding:.65rem .9rem;font-size:12px;color:var(--green-dark);line-height:1.6;margin-bottom:1rem;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.25rem;}
+.card{border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem .7rem;cursor:pointer;background:var(--surface);text-align:center;transition:border-color .12s,background .12s;}
+.card:hover{background:#f5f5f2;}
+.card.sel{border-width:2px;}
+.c-ico{font-size:20px;display:block;margin-bottom:5px;}
+.c-lbl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.c-eg{font-size:11px;color:var(--text3);line-height:1.5;}
+.btn-main{width:100%;padding:14px;border-radius:var(--radius);border:none;font-size:14px;font-weight:700;cursor:pointer;color:white;background:var(--green);transition:opacity .12s,transform .1s;}
+.btn-main:disabled{opacity:.28;cursor:not-allowed;}
+.btn-main:not(:disabled):hover{opacity:.9;}
+.btn-main:not(:disabled):active{transform:scale(.98);}
+.btn-sec{width:100%;padding:11px;border-radius:var(--radius);border:0.5px solid var(--border);background:#f5f5f2;font-size:13px;color:var(--text2);cursor:pointer;margin-top:.5rem;}
+.btn-sec:hover{background:#eeeeea;}
+.back{background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:0;margin-bottom:1rem;display:flex;align-items:center;gap:4px;}
+.back:hover{color:var(--text);}
+.step-hint{font-size:11px;color:var(--green-dark);background:var(--green-light);padding:3px 9px;border-radius:100px;display:inline-block;margin-bottom:.75rem;font-weight:600;}
+.path-row{border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:8px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;background:var(--surface);}
+.path-row:hover{background:#f5f5f2;}
+.path-row.sel{border:2px solid var(--green);background:var(--green-light);}
+.path-lbl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.path-desc{font-size:12px;color:var(--text2);line-height:1.5;}
+/* ── Career cards v3 ── */
+.ccard{border:1.5px solid var(--border);border-radius:var(--radius);background:var(--surface);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.ccard:hover{border-color:#b0c8be;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.ccard.sel{border:2px solid var(--green);box-shadow:0 2px 12px rgba(29,158,117,.15);}
+.cchead{padding:.9rem 1rem;display:flex;align-items:flex-start;gap:10px;}
+.ccname{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.35;}
+.tag{font-size:11px;padding:2px 8px;border-radius:100px;display:inline-block;margin:2px 2px 0 0;}
+.badge-new{font-size:10px;background:#FFF3CD;color:#856404;padding:1px 6px;border-radius:100px;font-weight:700;vertical-align:middle;margin-left:4px;}
+.badge-mentor{font-size:10px;background:var(--purple-light);color:var(--purple);padding:1px 7px;border-radius:100px;font-weight:700;vertical-align:middle;margin-left:4px;border:1px solid var(--purple-border);}
+.cc-tagline{font-size:12px;color:var(--text2);line-height:1.5;margin-top:5px;font-style:italic;}
+.cc-sel-mark{width:24px;height:24px;border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:background .15s;}
+.cc-sel-mark.on{background:var(--green);color:white;}
+.cc-sel-mark.off{border:1.5px solid #d0cdc7;}
+.cc-toggle{padding:7px 1rem;border-top:0.5px solid #f0ede7;font-size:11px;color:#888;display:flex;align-items:center;gap:4px;background:#fafaf8;}
+.ccbody{padding:.85rem 1rem;border-top:0.5px solid var(--border);}
+.info-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:.65rem;}
+.info-ico{font-size:12px;flex-shrink:0;margin-top:1px;}
+.info-lbl{font-size:12px;font-weight:600;color:var(--text2);min-width:58px;flex-shrink:0;}
+.info-txt{font-size:12px;color:var(--text);line-height:1.55;}
+.mentor-link{display:flex;align-items:center;justify-content:space-between;background:#f5f5f2;border:0.5px solid var(--border);border-radius:8px;padding:.65rem .85rem;margin-top:.65rem;cursor:pointer;font-size:12px;color:var(--text2);text-decoration:none;}
+.mentor-link:hover{border-color:#ccc;}
+.mentor-box{background:var(--purple-light);border:1px solid var(--purple-border);border-radius:8px;padding:.75rem .9rem;margin-top:.65rem;}
+.confirm-section{background:#f8f8f5;border:0.5px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:1rem;}
+.conf-item{display:flex;align-items:flex-start;gap:10px;padding:.65rem 0;border-bottom:0.5px solid var(--border);}
+.conf-item:last-child{border-bottom:none;}
+.conf-num{background:var(--green);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.conf-lbl{font-size:12px;color:var(--text2);margin-bottom:3px;}
+.conf-val{font-size:14px;font-weight:700;color:var(--text);}
+.sentence-box{border:2px solid var(--green);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:1rem;font-size:14px;line-height:2.1;text-align:center;background:var(--green-light);}
+.hl{font-weight:700;padding:2px 10px;border-radius:100px;}
+.final-card{border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:.75rem;}
+.srow{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 1.25rem;border-bottom:0.5px solid var(--border);font-size:13px;}
+.srow:last-child{border-bottom:none;}
+.skey{color:var(--text2);}
+.sval{font-weight:600;color:var(--text);text-align:right;max-width:62%;}
+.intro-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:.65rem;}
+.intro-ico{width:28px;height:28px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.myb-cta{display:flex;align-items:center;background:var(--green);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.75rem;text-decoration:none;color:white;gap:12px;transition:opacity .12s;}
+.myb-cta:hover{opacity:.9;}
+.myb-cta-ico{font-size:28px;flex-shrink:0;}
+.myb-cta-txt{flex:1;}
+.myb-cta-title{font-size:15px;font-weight:700;margin-bottom:3px;}
+.myb-cta-sub{font-size:11px;opacity:.85;line-height:1.4;}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="myb"></div></div>
+<script>
+/* ───────────── 행동 키워드 (V) ───────────── */
+const V=[
+  {id:'make',    lbl:'만들다',  e:'🔨', tagline:'뭔가를 직접 만드는 게 즐거운 사람',      desc:'아이디어를 현실로 만들어내는 걸 좋아해요. 그림 그리기, 코딩, 요리, 공예처럼 손이나 머리로 직접 무언가를 만들 때 뿌듯함을 느끼는 사람이에요.', ex:'예) 레고 조립, 요리 실험, 앱 만들기, 악기 연주', c:'#993C1D', bg:'#FAECE7'},
+  {id:'connect', lbl:'연결하다', e:'🔗', tagline:'사람과 아이디어 사이의 다리 역할',       desc:'서로 다른 사람들, 서로 다른 아이디어를 이어주는 걸 잘하고 즐겨요. 친구들 사이에서 자연스럽게 중간 역할을 하는 사람이에요.',              ex:'예) 친구 소개, 팀 프로젝트 조율, 커뮤니티 활동',  c:'#0F6E56', bg:'#E1F5EE'},
+  {id:'care',    lbl:'돌보다',  e:'🌿', tagline:'누군가를 보살피고 힘이 되어주는 사람',   desc:'사람, 동물, 자연을 챙기는 게 자연스러운 사람이에요. 친구가 힘들 때 옆에 있어주고 싶거나, 환경을 지키고 싶다는 마음이 드는 사람이에요.',    ex:'예) 반 친구 도와주기, 동물 봉사, 환경 캠페인 참여', c:'#3B6D11', bg:'#EAF3DE'},
+  {id:'share',   lbl:'알리다',  e:'📣', tagline:'내 생각을 세상에 전달하고 싶은 사람',    desc:'내가 알고 있는 것, 중요하다고 생각하는 것들을 다른 사람들에게 전하고 싶어요. 글쓰기, 말하기, 영상 만들기로 세상에 이야기하는 게 즐거운 사람이에요.', ex:'예) SNS 포스팅, 학교 발표, 유튜브 영상, 학교 신문', c:'#854F0B', bg:'#FAEEDA'},
+  {id:'explore', lbl:'탐구하다', e:'🔍', tagline:'"왜?" "어떻게?"를 자주 묻는 사람',      desc:'모르는 걸 파고들어 진실을 찾아내는 게 재미있어요. 책이나 자료를 찾아보거나, 실험하고 관찰하면서 답을 찾는 과정이 즐거운 사람이에요.',    ex:'예) 과학 탐구, 역사 공부, 데이터 분석, 독서',      c:'#185FA5', bg:'#E6F1FB'},
+  {id:'manage',  lbl:'운영하다', e:'⚙️', tagline:'계획하고 이끄는 걸 좋아하는 사람',     desc:'체계적으로 계획을 세우고 팀을 이끄는 게 자연스러운 사람이에요. 프로젝트를 잘 정리해서 완성하거나, 모두가 잘 움직일 수 있게 조율하는 역할이 뿌듯한 사람이에요.', ex:'예) 반장·학급 임원, 행사 기획, 동아리 운영', c:'#3C3489', bg:'#EEEDFE'},
+];
+
+/* ───────────── 관심 분야 (D) — 9개 ───────────── */
+const D=[
+  {id:'safety',     lbl:'안전&생명',      e:'🛡',  tagline:'사람의 생명과 안전을 지키는 일에 끌려요',         desc:'의료, 소방, 구조, 보건처럼 위기 상황에서 사람의 생명을 지키고 안전한 사회를 만드는 일에 관심이 있어요.',                         ex:'예) 응급처치 관심, 의료 드라마, 안전 장비 탐구',       c:'#8B2020', bg:'#FDECEA'},
+  {id:'sports',     lbl:'스포츠&퍼포먼스', e:'🏃', tagline:'운동하고 경기에서 최고를 보여주는 일에 끌려요',     desc:'스포츠, 체육, e스포츠처럼 신체와 퍼포먼스로 최고를 추구하거나, 선수·팀을 돕는 일에 관심이 있어요.',                             ex:'예) 운동, 트레이닝, e스포츠, 스포츠 중계 관심',        c:'#993C1D', bg:'#FAECE7'},
+  {id:'food',       lbl:'음식&자연',      e:'🌱',  tagline:'먹거리·자연·환경에 관심이 많아요',                desc:'요리하거나 식재료를 탐구하는 것, 또는 자연과 환경 문제에 관심이 많아요.',                                                         ex:'예) 요리, 농사, 환경 보호, 식품 탐구',                 c:'#3B6D11', bg:'#EAF3DE'},
+  {id:'expression', lbl:'꾸밈&표현',      e:'✨',  tagline:'아름다움을 만들고 무대에서 빛나고 싶어요',          desc:'패션, 메이크업, 음악, 연기처럼 눈에 보이는 아름다움을 만들거나 무대에서 자신을 표현하는 것에 흥미가 있어요.',                       ex:'예) 그림, 패션 코디, 뷰티, 댄스, 음악 활동',           c:'#72243E', bg:'#FBEAF0'},
+  {id:'words',      lbl:'말&글&법',       e:'💬',  tagline:'생각하고, 쓰고, 말로 세상을 바꾸고 싶어요',        desc:'글쓰기, 말하기, 법과 규칙처럼 언어와 논리로 세상에 영향을 미치는 일에 관심이 있어요.',                                            ex:'예) 글쓰기, 토론, 독서, 법 이야기, 뉴스',              c:'#185FA5', bg:'#EAF4FD'},
+  {id:'tech',       lbl:'기술&디지털',    e:'💻',  tagline:'디지털 세계와 기술에 끌려요',                      desc:'코딩, 앱, 게임, AI처럼 기술과 디지털 세계가 어떻게 돌아가는지 알고 싶고 직접 만들어보고 싶어요.',                                  ex:'예) 코딩, 게임 개발, 유튜브 영상 편집, AI 체험',        c:'#3C3489', bg:'#EEEDFE'},
+  {id:'space',      lbl:'공간&재료',      e:'🏗',  tagline:'공간을 디자인하거나 재료를 다루는 걸 좋아해요',     desc:'건축, 도예, 목공처럼 물리적인 공간과 재료를 다루는 것에 흥미가 있어요.',                                                         ex:'예) 집 꾸미기, 미니어처, 도예, 건물 구조 관심',        c:'#854F0B', bg:'#FAEEDA'},
+  {id:'people',     lbl:'사람&관계',      e:'🤝',  tagline:'사람들과 함께하고 세상을 바꾸는 일에 관심이 있어요', desc:'누군가를 가르치거나, 커뮤니티를 만들거나, 사회 문제를 함께 해결하는 것에 관심이 있어요.',                                        ex:'예) 친구 멘토링, 봉사활동, 사회적 프로젝트',            c:'#085041', bg:'#E1F5EE'},
+  {id:'economy',    lbl:'돈&경제',        e:'💰',  tagline:'돈과 물건의 흐름을 설계하는 일에 관심이 있어요',   desc:'금융, 투자, 경제처럼 돈과 자원이 어떻게 흐르는지 이해하고 더 좋은 경제 시스템을 만드는 일에 관심이 있어요.',                       ex:'예) 주식·경제 뉴스, 창업, 금융 공부',                  c:'#7A5000', bg:'#FFF8E1'},
+];
+
+/* ───────────── 진로 경로 (P) ───────────── */
+const P=[
+  {id:'univ',    lbl:'대학·대학원 진학',   e:'🎓', d:'체계적으로 깊이 배운 뒤 전문가가 되고 싶어', next:'관련 학과 입시 준비 → 전문 자격증 취득'},
+  {id:'job',     lbl:'바로 취업',          e:'💼', d:'현장에서 직접 부딪히며 경험을 쌓고 싶어',   next:'포트폴리오 준비 → 인턴십 또는 신입 지원'},
+  {id:'startup', lbl:'창업',              e:'🚀', d:'내가 직접 무언가를 만들어서 세상에 내놓고 싶어', next:'아이디어 테스트 → 소규모 프로젝트 시작'},
+  {id:'creator', lbl:'독립 크리에이터',    e:'🎨', d:'내 콘텐츠와 브랜드로 자유롭게 활동하고 싶어', next:'채널·포트폴리오 구축 → 팔로워·팬베이스 키우기'},
+];
+
+/* ───────────── 직업 데이터 (CM) — 9분야 × 6행동 = 54조합, 각 3개 ───────────── */
+/* ── CM v3: 9 domains × 6 verbs × 3 careers each ── */
+/* Each career: n, tagline, tags, isNew, isMentor, desc, do, fit, figure */
+const CM={
+
+  /* ────────────────────────────────────────────────
+     🛡 안전&생명 (safety)
+  ──────────────────────────────────────────────── */
+  safety:{
+    make:[
+      {n:'의료기기 개발자', tagline:'사람을 살리는 도구를 직접 설계해요', tags:['제품','의료'], isNew:false, isMentor:false,
+       desc:'MRI, 인공심장, 수술 로봇처럼 생명을 지키는 의료 기기를 설계하고 만들어요.',
+       do:'의료 기기 설계·제작, 임상 테스트, 인허가 준비',
+       fit:'과학·기술을 좋아하고 생명에 관심 있는 사람',
+       figure:'삼성메디슨, 메드트로닉 개발자'},
+      {n:'재난대응 AI 개발자', tagline:'AI로 재난을 예측하고 피해를 막아요', tags:['기술','안전'], isNew:true, isMentor:false,
+       desc:'화재·홍수·지진 같은 재난을 예측하고 빠르게 대응하는 AI 시스템을 만들어요.',
+       do:'AI 모델 개발, 재난 데이터 분석, 시스템 테스트',
+       fit:'코딩과 사회 안전 두 가지 모두에 관심 있는 사람',
+       figure:'행정안전부 스마트재난대응팀'},
+      {n:'의공학 창업가', tagline:'의학과 공학을 합쳐 세상에 없던 것을 만들어요', tags:['창업','의공학'], isNew:true, isMentor:true,
+       desc:'의학 지식과 공학 기술을 결합해 혁신적인 의료 스타트업을 창업하는 도전자예요.',
+       do:'의공학 제품 기획·개발, 투자 유치, 임상 파트너십',
+       fit:'의학과 기술 모두 흥미 있고 창업에 도전하고 싶은 사람',
+       figure:'정재승 교수 (KAIST 뇌공학 — 유튜브 강연 검색 가능)'},
+    ],
+    connect:[
+      {n:'응급 코디네이터', tagline:'위기 상황에서 빠른 연결이 생명을 살려요', tags:['연결','의료'], isNew:false, isMentor:false,
+       desc:'응급 상황에서 환자·병원·구조대를 빠르게 연결하는 핵심 역할이에요.',
+       do:'응급 호출 조율, 병원 연계, 현장 소통',
+       fit:'침착하고 사람들을 잘 연결하는 사람',
+       figure:'119 종합상황실 근무자'},
+      {n:'헬스케어 플랫폼 기획자', tagline:'의료와 디지털을 연결하는 서비스를 만들어요', tags:['기획','의료'], isNew:true, isMentor:false,
+       desc:'병원·의사·환자를 이어주는 디지털 의료 서비스를 기획하고 만들어요.',
+       do:'서비스 기획, 병원 제휴, 사용자 분석',
+       fit:'의료와 IT 모두에 관심 있고 기획을 좋아하는 사람',
+       figure:'카카오헬스케어, 닥터나우 기획팀'},
+      {n:'의료 관광 코디네이터', tagline:'해외 환자와 국내 병원을 연결해줘요', tags:['글로벌','의료'], isNew:true, isMentor:true,
+       desc:'한국 의료 기술을 찾아오는 해외 환자가 병원에서 불편함 없이 치료받도록 전 과정을 도와줘요.',
+       do:'의료 통역, 병원 연계, 체류 지원, 사후 관리',
+       fit:'언어와 의료 모두에 관심 있고 외국 문화가 흥미로운 사람',
+       figure:'강남세브란스 국제진료센터, 한국의료관광협회'},
+    ],
+    care:[
+      {n:'의사·간호사·약사', tagline:'환자 곁에서 생명을 직접 돌봐요', tags:['치료','의료'], isNew:false, isMentor:false,
+       desc:'아픈 사람을 직접 진단·치료하거나 약으로 건강을 회복시켜주는 의료 전문가예요.',
+       do:'진찰·처방·수술, 환자 케어, 약 조제 및 복약 지도',
+       fit:'사람을 직접 돕는 게 보람있고 생명에 관심 있는 사람',
+       figure:'서울대병원, 세브란스 의료진'},
+      {n:'응급구조사·구급대원', tagline:'사고 현장에서 가장 먼저 달려가요', tags:['현장','안전'], isNew:false, isMentor:false,
+       desc:'사고 현장에 출동해 환자를 즉각 처치하고 병원으로 이송하는 현장 의료인이에요.',
+       do:'현장 응급 처치, 환자 이송, 구조 활동',
+       fit:'빠른 판단력과 체력이 있고 위기에서 침착한 사람',
+       figure:'소방청 119 구급대원'},
+      {n:'중증외상 전문의', tagline:'가장 위급한 순간, 포기하지 않고 싸워요', tags:['외상','의료'], isNew:false, isMentor:true,
+       desc:'교통사고·추락 등 생사가 갈리는 중증 외상 환자를 수술로 살려내는 특수 전문의예요.',
+       do:'중증 외상 수술, 응급 판단, 의료팀 지휘',
+       fit:'압박 속에서도 집중력을 유지하고 사명감이 강한 사람',
+       figure:'이국종 교수 (아주대병원 권역외상센터 — 유튜브·뉴스 검색 가능)'},
+    ],
+    share:[
+      {n:'보건 교육사', tagline:'건강 정보를 가르쳐 더 많은 사람을 지켜요', tags:['교육','건강'], isNew:false, isMentor:false,
+       desc:'학교나 기관에서 건강 예방법과 응급처치를 가르쳐주는 교육 전문가예요.',
+       do:'건강 교육 프로그램 개발·운영, 강의',
+       fit:'가르치는 걸 좋아하고 건강 정보를 전달하고 싶은 사람',
+       figure:'학교 보건 교사, 질병관리청 교육팀'},
+      {n:'헬스 인플루언서', tagline:'유튜브·SNS로 건강 정보를 쉽게 전달해요', tags:['콘텐츠','건강'], isNew:true, isMentor:false,
+       desc:'건강·의료 정보를 SNS나 유튜브로 쉽고 정확하게 많은 사람에게 전달해요.',
+       do:'건강 콘텐츠 기획·제작, 팔로워 소통, 정보 검증',
+       fit:'건강에 관심 많고 표현하는 걸 즐기는 사람',
+       figure:'닥터프렌즈 (유튜브 의학 채널, 구독자 130만+ — 검색 가능)'},
+      {n:'의학 유튜버', tagline:'복잡한 의학 지식을 재미있게 풀어 알려요', tags:['미디어','의학'], isNew:true, isMentor:true,
+       desc:'어렵고 딱딱한 의학 정보를 10대도 이해할 수 있도록 영상 콘텐츠로 만들어요.',
+       do:'의학 콘텐츠 기획·제작, 의사 인터뷰, 팩트 체크',
+       fit:'의학에 관심 있고 영상·글로 설명하는 걸 좋아하는 사람',
+       figure:'닥터프렌즈, 의대언니, 슬기로운의사생활 유튜브 채널'},
+    ],
+    explore:[
+      {n:'의학 연구원', tagline:'새로운 치료법과 백신을 실험실에서 찾아요', tags:['연구','의학'], isNew:false, isMentor:false,
+       desc:'새로운 치료법과 약을 개발하기 위해 실험하고 연구하는 생명과학자예요.',
+       do:'실험 설계, 임상 연구, 논문 작성',
+       fit:'생명과학이 재미있고 꼼꼼하게 탐구하는 걸 좋아하는 사람',
+       figure:'서울대·연세대 의과대학 연구소'},
+      {n:'역학·바이러스 연구원', tagline:'전염병이 퍼지는 이유를 분석하고 막아요', tags:['연구','감염병'], isNew:false, isMentor:false,
+       desc:'코로나처럼 전염병이 어떻게 퍼지는지 연구하고 예방책을 찾는 과학자예요.',
+       do:'역학 조사, 바이러스 분석, 방역 정책 자문',
+       fit:'질병과 과학에 호기심이 많고 분석적인 사람',
+       figure:'질병관리청 역학조사관'},
+      {n:'바이오헬스 데이터 분석가', tagline:'의료 데이터에서 생명을 살릴 단서를 찾아요', tags:['데이터','의료'], isNew:true, isMentor:true,
+       desc:'수백만 명의 건강 데이터를 분석해 질병 패턴을 예측하고 예방 솔루션을 만들어요.',
+       do:'의료 데이터 수집·분석, AI 모델 개발, 병원 협력',
+       fit:'수학·통계를 좋아하고 의료 문제에 관심 있는 사람',
+       figure:'네이버 헬스케어, 삼성서울병원 데이터사이언스팀'},
+    ],
+    manage:[
+      {n:'병원장·소방서장', tagline:'안전한 시스템 전체를 이끌고 총괄해요', tags:['리더십','안전'], isNew:false, isMentor:false,
+       desc:'병원이나 소방서 전체를 이끌며 안전 시스템을 총괄하는 기관 리더예요.',
+       do:'조직 운영, 예산 관리, 안전 정책 수립',
+       fit:'리더십이 강하고 체계적으로 이끄는 걸 좋아하는 사람',
+       figure:'국립중앙의료원장, 소방서장'},
+      {n:'스마트 병원 운영 매니저', tagline:'AI·디지털로 병원을 미래로 혁신해요', tags:['운영','의료'], isNew:true, isMentor:false,
+       desc:'AI와 디지털 기술을 활용한 스마트 병원을 기획하고 운영해요.',
+       do:'디지털 의료 시스템 운영, 의료진 협업, 환자 서비스 개선',
+       fit:'경영과 의료 기술 모두에 관심 있는 사람',
+       figure:'분당서울대병원 디지털혁신팀'},
+      {n:'보건복지 정책 기획관', tagline:'국가 전체의 의료·복지 시스템을 설계해요', tags:['정책','공공'], isNew:false, isMentor:true,
+       desc:'정부에서 국민의 건강과 복지를 위한 정책을 기획하고 제도를 만드는 공무원이에요.',
+       do:'보건 정책 연구·입안, 예산 기획, 관계 기관 협의',
+       fit:'큰 그림을 그리고 사회 전체에 기여하고 싶은 사람',
+       figure:'보건복지부, 질병관리청 정책연구관'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     🏃 스포츠&퍼포먼스 (sports)
+  ──────────────────────────────────────────────── */
+  sports:{
+    make:[
+      {n:'스포츠용품 디자이너', tagline:'선수가 더 잘 뛸 수 있는 장비를 디자인해요', tags:['디자인','스포츠'], isNew:false, isMentor:false,
+       desc:'스포츠 유니폼, 용품, 장비를 더 멋지고 기능적으로 디자인해요.',
+       do:'제품 디자인, 색상·소재 선택, 착용 테스트',
+       fit:'그림 그리기와 운동을 모두 좋아하는 사람',
+       figure:'나이키·아디다스 디자인팀, 이상봉 디자이너'},
+      {n:'e스포츠 게임 기획자', tagline:'e스포츠 대회와 게임 시스템을 기획하고 만들어요', tags:['게임','기술'], isNew:true, isMentor:false,
+       desc:'e스포츠 경기에서 쓰이는 게임과 대회 시스템을 기획하고 만들어요.',
+       do:'게임 규칙 설계, 밸런스 조정, 대회 포맷 기획',
+       fit:'게임을 깊이 이해하고 새로운 것을 만드는 걸 좋아하는 사람',
+       figure:'라이엇 게임즈 기획팀 (리그 오브 레전드)'},
+      {n:'스포츠 브랜드 콘텐츠 크리에이터', tagline:'스포츠의 감동을 영상과 디자인으로 만들어요', tags:['콘텐츠','스포츠'], isNew:true, isMentor:true,
+       desc:'유명 스포츠 선수나 브랜드의 감동 스토리를 영상·사진·디자인으로 만들어요.',
+       do:'영상 기획·제작, SNS 콘텐츠 운영, 브랜드 협업',
+       fit:'스포츠를 좋아하고 영상·디자인으로 표현하는 걸 즐기는 사람',
+       figure:'나이키 코리아 크리에이티브팀, 스포츠 유튜버'},
+    ],
+    connect:[
+      {n:'스포츠 에이전트', tagline:'선수의 미래와 커리어를 함께 설계해요', tags:['비즈니스','스포츠'], isNew:false, isMentor:false,
+       desc:'선수와 구단, 스폰서를 연결해주는 중간 역할로 선수의 커리어를 함께 설계해요.',
+       do:'선수 계약 협상, 구단·기업 미팅, 커리어 관리',
+       fit:'사람 만나는 걸 좋아하고 스포츠를 잘 아는 사람',
+       figure:'스포츠 에이전시 IMG, KFA 에이전트'},
+      {n:'e스포츠 팀 매니저', tagline:'선수단과 파트너를 연결하고 팀을 조율해요', tags:['연결','e스포츠'], isNew:true, isMentor:false,
+       desc:'e스포츠 선수단과 구단, 파트너사를 연결하고 팀 운영 전반을 조율해요.',
+       do:'일정 조율, 팀 소통, 파트너십 관리',
+       fit:'꼼꼼하고 e스포츠 현장이 좋은 사람',
+       figure:'T1, Gen.G 팀 매니저'},
+      {n:'스포츠 스폰서십 매니저', tagline:'스포츠와 기업을 연결해 멋진 파트너십을 만들어요', tags:['마케팅','스포츠'], isNew:true, isMentor:true,
+       desc:'스포츠 구단·선수와 기업 스폰서를 연결해 양쪽 모두에게 가치 있는 파트너십을 만들어요.',
+       do:'스폰서십 제안·협상, 계약 관리, 공동 마케팅 기획',
+       fit:'스포츠와 비즈니스를 모두 이해하고 소통을 잘하는 사람',
+       figure:'대한축구협회 마케팅팀, K리그 스폰서십 담당'},
+    ],
+    care:[
+      {n:'스포츠 트레이너', tagline:'선수가 더 강하고 건강하게 성장하도록 도와요', tags:['케어','스포츠'], isNew:false, isMentor:false,
+       desc:'선수나 일반인이 부상 없이 더 잘 움직일 수 있도록 도와주는 전문가예요.',
+       do:'운동 처방, 부상 예방, 재활 운동 지도',
+       fit:'남을 도와주는 게 좋고 몸에 관심 있는 사람',
+       figure:'국가대표 트레이너, 피트니스 전문가'},
+      {n:'선수 영양 관리사', tagline:'최상의 컨디션을 위해 먹는 것부터 설계해요', tags:['영양','스포츠'], isNew:true, isMentor:false,
+       desc:'선수가 최상의 컨디션을 낼 수 있도록 식단과 영양을 맞춤 관리해요.',
+       do:'식단 설계, 영양 상담, 체중 관리 지원',
+       fit:'음식과 스포츠 두 가지 모두에 관심 있는 사람',
+       figure:'국가대표팀 영양 관리사'},
+      {n:'스포츠 심리 상담사', tagline:'선수의 멘탈을 강하게 만들어줘요', tags:['심리','스포츠'], isNew:true, isMentor:true,
+       desc:'경기 전 긴장, 슬럼프, 부상 후 심리 회복 등 선수의 마음 건강을 전문적으로 도와요.',
+       do:'심리 상담, 루틴 개발, 집중력·자신감 훈련',
+       fit:'스포츠와 심리학을 모두 좋아하는 사람',
+       figure:'대한스포츠심리학회, 국가대표팀 멘탈코치'},
+    ],
+    share:[
+      {n:'스포츠 해설가·캐스터', tagline:'경기의 재미를 두 배로 만들어주는 목소리예요', tags:['미디어','스포츠'], isNew:false, isMentor:false,
+       desc:'경기를 보며 전문 해설을 해서 시청자가 더 재미있게 즐기도록 도와요.',
+       do:'경기 분석, 방송 출연, 해설 원고 작성',
+       fit:'말 잘하고 스포츠를 깊이 아는 사람',
+       figure:'이영표, 박문성 해설위원'},
+      {n:'e스포츠 스트리머', tagline:'게임을 방송하며 팬들과 실시간으로 소통해요', tags:['콘텐츠','e스포츠'], isNew:true, isMentor:false,
+       desc:'e스포츠 경기나 게임 플레이를 방송하며 팬들과 소통해요.',
+       do:'방송 기획·진행, 팬 소통, 콘텐츠 제작',
+       fit:'게임을 잘하고 사람들과 소통하는 걸 즐기는 사람',
+       figure:'페이커 (T1, 유튜브·Twitch 검색 가능), 스포티비 게임즈 캐스터'},
+      {n:'스포츠 저널리스트', tagline:'선수들의 감동 이야기를 글과 영상으로 세상에 알려요', tags:['미디어','저널리즘'], isNew:false, isMentor:true,
+       desc:'스포츠 선수와 팀의 뒷이야기, 경기 분석을 취재해 기사와 다큐멘터리로 만들어요.',
+       do:'현장 취재, 선수 인터뷰, 기사·영상 제작',
+       fit:'스포츠를 좋아하고 이야기를 전달하는 걸 즐기는 사람',
+       figure:'이영표 (전 국가대표 — 유튜브 채널 운영, 검색 가능)'},
+    ],
+    explore:[
+      {n:'스포츠 과학자', tagline:'데이터로 선수의 움직임을 분석해 기록을 높여요', tags:['연구','과학'], isNew:false, isMentor:false,
+       desc:'선수 몸의 움직임·체력·회복을 데이터로 분석해서 더 잘 뛸 수 있도록 연구해요.',
+       do:'데이터 분석, 실험, 현장 적용',
+       fit:'과학 탐구가 재미있고 스포츠도 좋아하는 사람',
+       figure:'한국스포츠정책과학원 연구원'},
+      {n:'웨어러블 퍼포먼스 연구원', tagline:'스마트 기기로 선수 몸 상태를 실시간 분석해요', tags:['기술','연구'], isNew:true, isMentor:false,
+       desc:'스마트워치·센서 등 웨어러블 기기로 선수 퍼포먼스를 분석하는 연구를 해요.',
+       do:'기기 개발·실험, 데이터 분석, 논문 작성',
+       fit:'기술과 스포츠 모두 흥미 있는 사람',
+       figure:'삼성·애플 스포츠 헬스 연구팀'},
+      {n:'스포츠 의학 연구원', tagline:'부상을 예방하고 빠른 회복을 돕는 방법을 연구해요', tags:['의학','연구'], isNew:false, isMentor:true,
+       desc:'스포츠 부상의 원인과 치료법, 회복 과학을 연구해서 선수들이 오래 건강하게 뛸 수 있게 해요.',
+       do:'임상 연구, 재활 프로그램 개발, 학술 발표',
+       fit:'의학과 스포츠 모두에 관심 있고 연구하는 걸 좋아하는 사람',
+       figure:'서울아산병원 스포츠의학팀, 한국스포츠과학원'},
+    ],
+    manage:[
+      {n:'팀 감독·코치', tagline:'전략을 짜고 팀을 승리로 이끌어요', tags:['리더십','스포츠'], isNew:false, isMentor:false,
+       desc:'팀 전체를 이끌고 전략을 짜서 선수들이 최고의 성과를 내도록 해요.',
+       do:'훈련 계획, 전술 수립, 선수 관리',
+       fit:'이끄는 걸 좋아하고 전략적으로 생각하는 사람',
+       figure:'거스 히딩크, 차범근 감독'},
+      {n:'e스포츠 리그 운영자', tagline:'e스포츠 대회 전체를 기획하고 총괄해요', tags:['경영','e스포츠'], isNew:true, isMentor:false,
+       desc:'e스포츠 리그 전체를 기획하고 대회 운영을 총괄해요.',
+       do:'대회 기획, 팀·선수 관리, 파트너십 운영',
+       fit:'게임을 이해하고 조직을 이끄는 걸 좋아하는 사람',
+       figure:'LCK (리그 오브 레전드 챔피언스 코리아) 운영팀'},
+      {n:'스포츠 클럽 운영자', tagline:'팬과 선수 모두가 행복한 팀을 만들어요', tags:['경영','스포츠'], isNew:false, isMentor:true,
+       desc:'스포츠 구단이나 e스포츠 팀 전체의 경영을 맡아 팬·선수·파트너 모두가 만족하는 환경을 만들어요.',
+       do:'구단 경영, 선수단 관리, 팬 서비스 기획',
+       fit:'스포츠를 깊이 이해하고 경영에 관심 있는 사람',
+       figure:'페이커 이상혁 (T1 e스포츠 — 유튜브·인스타그램 검색 가능)'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     🌱 음식&자연 (food)
+  ──────────────────────────────────────────────── */
+  food:{
+    make:[
+      {n:'셰프·파티시에', tagline:'새로운 맛과 레시피를 창조하는 요리 예술가예요', tags:['요리','창작'], isNew:false, isMentor:false,
+       desc:'레스토랑이나 방송에서 새로운 메뉴를 개발하고 요리하는 전문가예요.',
+       do:'메뉴 개발, 조리, 주방 관리',
+       fit:'맛과 향에 예민하고 뭔가 만드는 게 즐거운 사람',
+       figure:'최현석 셰프 (유튜브·TV 출연 — 검색 가능), 백종원 셰프'},
+      {n:'비건 식품 개발자', tagline:'더 건강하고 친환경적인 식품을 연구해요', tags:['식품','환경'], isNew:true, isMentor:false,
+       desc:'동물성 재료 없이도 맛있는 비건·대체육 식품을 연구하고 개발해요.',
+       do:'식품 배합 연구, 맛 테스트, 제품 출시',
+       fit:'음식과 환경 문제 둘 다 관심 있는 사람',
+       figure:'비욘드미트, CJ제일제당 R&D팀'},
+      {n:'푸드 스타일리스트', tagline:'음식을 예술처럼 아름답게 플레이팅해요', tags:['스타일링','식품'], isNew:false, isMentor:true,
+       desc:'광고, 잡지, 영화 속 음식을 맛있어 보이게 연출하고 아름답게 꾸미는 전문가예요.',
+       do:'음식 연출·플레이팅, 촬영 세팅, 레시피 개발',
+       fit:'요리와 예쁜 것을 만드는 것 둘 다 좋아하는 사람',
+       figure:'삼성제일병원 푸드스타일리스트, 요리 잡지 에디터'},
+    ],
+    connect:[
+      {n:'푸드 코디네이터', tagline:'농부와 소비자, 식당을 이어주는 다리예요', tags:['연결','식품'], isNew:false, isMentor:false,
+       desc:'농부와 소비자, 식당과 식재료 업체를 연결해주는 역할이에요.',
+       do:'거래처 발굴, 계약, 유통 관리',
+       fit:'사람 만나고 음식에 관심 있는 사람',
+       figure:'로컬푸드 코디네이터'},
+      {n:'푸드테크 플랫폼 기획자', tagline:'음식과 IT를 연결한 새로운 서비스를 만들어요', tags:['기획','기술'], isNew:true, isMentor:false,
+       desc:'배달앱·식품 구독 서비스처럼 음식과 IT를 결합한 플랫폼을 기획해요.',
+       do:'서비스 기획, 파트너십, 사용자 분석',
+       fit:'음식과 IT 모두 좋아하는 사람',
+       figure:'배달의민족, 오늘의 식탁 기획팀'},
+      {n:'로컬푸드 큐레이터', tagline:'지역 농산물과 소비자를 감성적으로 연결해요', tags:['유통','로컬'], isNew:true, isMentor:true,
+       desc:'지역 농부가 키운 신선한 식재료를 도시 소비자에게 연결하고 로컬 푸드의 가치를 알려요.',
+       do:'산지 발굴, 상품 큐레이션, 스토리텔링 마케팅',
+       fit:'음식과 지역 문화에 관심 있고 사람들을 연결하는 걸 좋아하는 사람',
+       figure:'마켓컬리 MD팀, 로컬푸드 직매장 운영자'},
+    ],
+    care:[
+      {n:'영양사·식이요법사', tagline:'건강한 식단으로 사람들의 몸을 돌봐요', tags:['건강','식품'], isNew:false, isMentor:false,
+       desc:'학교·병원·회사에서 사람들이 건강하게 먹을 수 있도록 식단을 짜줘요.',
+       do:'식단 설계, 영양 상담, 급식 관리',
+       fit:'사람 건강에 관심 있고 꼼꼼한 사람',
+       figure:'학교 영양교사, 임상 영양사'},
+      {n:'기후 대응 활동가', tagline:'식품 시스템이 지구에 미치는 영향을 줄여요', tags:['환경','사회'], isNew:true, isMentor:false,
+       desc:'지구 온난화와 식품 시스템이 환경에 미치는 영향을 줄이기 위해 활동해요.',
+       do:'캠페인 기획, 교육, 정책 제안',
+       fit:'환경에 진지하게 관심 있고 행동하고 싶은 사람',
+       figure:'그린피스 코리아, 환경부 기후변화팀'},
+      {n:'반려동물 영양 전문가', tagline:'강아지·고양이의 건강한 식단을 설계해요', tags:['반려동물','영양'], isNew:true, isMentor:true,
+       desc:'반려동물이 건강하게 살 수 있도록 맞춤 식단을 만들고 영양 정보를 연구해요.',
+       do:'반려동물 식단 설계, 영양 상담, 사료 개발',
+       fit:'동물과 음식 두 가지 모두에 관심 있는 사람',
+       figure:'반려동물 영양사 협회, 반려동물 유튜브 채널 운영자'},
+    ],
+    share:[
+      {n:'푸드 크리에이터·유튜버', tagline:'요리와 맛집을 영상으로 생생하게 전달해요', tags:['콘텐츠','식품'], isNew:false, isMentor:false,
+       desc:'요리 영상, 맛집 탐방, 음식 리뷰 콘텐츠를 만들어 많은 사람에게 전달해요.',
+       do:'영상 기획·촬영·편집, SNS 운영',
+       fit:'음식을 좋아하고 표현하는 걸 즐기는 사람',
+       figure:'쯔양 (유튜브 먹방, 구독자 1000만+ — 검색 가능), 엠브로'},
+      {n:'제로웨이스트 인플루언서', tagline:'친환경 소비 방법을 콘텐츠로 알려요', tags:['환경','콘텐츠'], isNew:true, isMentor:false,
+       desc:'음식물 쓰레기를 줄이고 친환경 소비를 실천하는 방법을 콘텐츠로 알려요.',
+       do:'콘텐츠 기획·제작, 캠페인 참여, 커뮤니티 소통',
+       fit:'환경 문제에 관심 많고 영향력을 발휘하고 싶은 사람',
+       figure:'유튜브 제로웨이스트 채널, 환경 인플루언서'},
+      {n:'요리 유튜버', tagline:'누구나 따라 할 수 있는 쉬운 요리를 보여줘요', tags:['미디어','요리'], isNew:false, isMentor:true,
+       desc:'누구나 쉽게 따라 만들 수 있는 레시피와 요리 과정을 유튜브·SNS로 보여줘요.',
+       do:'레시피 개발, 영상 촬영·편집, 구독자 소통',
+       fit:'요리와 영상 제작을 모두 좋아하는 사람',
+       figure:'백종원의 요리비책 (유튜브, 구독자 600만+ — 검색 가능)'},
+    ],
+    explore:[
+      {n:'식품 연구원', tagline:'음식의 성분과 보존 방법을 과학적으로 연구해요', tags:['연구','과학'], isNew:false, isMentor:false,
+       desc:'음식의 영양 성분, 보존법, 새로운 식품 소재를 연구해요.',
+       do:'실험, 데이터 분석, 논문 작성',
+       fit:'과학 탐구가 재미있고 식품에 관심 있는 사람',
+       figure:'한국식품연구원'},
+      {n:'푸드테크 연구원', tagline:'3D 프린팅·배양육 등 미래 식품 기술을 연구해요', tags:['연구','기술'], isNew:true, isMentor:false,
+       desc:'3D 푸드 프린팅, 세포 배양육, AI 레시피 개발 같은 미래 식품 기술을 연구해요.',
+       do:'기술 실험, 프로토타입 제작, 연구 발표',
+       fit:'음식과 기술을 연결하는 걸 좋아하는 사람',
+       figure:'대체육·배양육 스타트업 연구소'},
+      {n:'발효·미생물 연구원', tagline:'김치·된장·요거트에 숨겨진 과학을 탐구해요', tags:['연구','발효'], isNew:false, isMentor:true,
+       desc:'발효 식품에 들어있는 미생물의 역할을 연구해 건강에 좋은 새로운 식품을 개발해요.',
+       do:'미생물 실험, 발효 조건 분석, 신제품 개발',
+       fit:'생물·화학을 좋아하고 음식에도 관심 있는 사람',
+       figure:'한국식품연구원, 서울대 식품영양학과 연구소'},
+    ],
+    manage:[
+      {n:'농장·식당 운영자', tagline:'맛있는 공간을 직접 경영하고 이끌어요', tags:['경영','식품'], isNew:false, isMentor:false,
+       desc:'농장이나 식당을 직접 운영하고 관리하는 사람이에요.',
+       do:'인력 관리, 메뉴 기획, 재무 관리',
+       fit:'주도적으로 이끄는 걸 좋아하는 사람',
+       figure:'백종원 (더본코리아 대표 — 유튜브·TV 검색 가능)'},
+      {n:'스마트팜 운영자', tagline:'IT 기술로 더 효율적인 스마트 농장을 운영해요', tags:['경영','농업'], isNew:true, isMentor:false,
+       desc:'ICT 기술로 자동화된 스마트 농장을 운영하며 작물을 재배해요.',
+       do:'재배 환경 관리, 데이터 분석, 유통 기획',
+       fit:'농업과 기술 모두에 관심 있는 사람',
+       figure:'스마트팜 스타트업 대표들'},
+      {n:'F&B 브랜드 창업가', tagline:'나만의 음식 브랜드를 만들어 세상에 내놓아요', tags:['창업','브랜드'], isNew:false, isMentor:true,
+       desc:'카페, 식품 브랜드, 레스토랑 체인 등 자신만의 F&B 비즈니스를 창업하고 키워가는 사람이에요.',
+       do:'브랜드 기획, 메뉴 개발, 경영 전반',
+       fit:'요리와 경영을 동시에 좋아하는 사람',
+       figure:'백종원 (더본코리아 — 유튜브 검색 가능), 연남동 카페 창업자'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     ✨ 꾸밈&표현 (expression)
+  ──────────────────────────────────────────────── */
+  expression:{
+    make:[
+      {n:'패션 디자이너', tagline:'옷과 스타일로 새로운 아름다움을 창조해요', tags:['디자인','패션'], isNew:false, isMentor:false,
+       desc:'옷, 가방, 신발 등 패션 아이템을 디자인하고 제작해요.',
+       do:'트렌드 분석, 의상 디자인, 샘플 제작',
+       fit:'그림 그리기와 패션에 관심 있는 사람',
+       figure:'이상봉 디자이너, 지방시'},
+      {n:'가수·배우·댄서', tagline:'무대 위에서 몸과 목소리로 감동을 만들어요', tags:['무대','공연'], isNew:false, isMentor:false,
+       desc:'노래·연기·춤으로 사람들에게 감동과 즐거움을 주는 아티스트예요.',
+       do:'연습, 공연, 음반 제작, 연기 활동',
+       fit:'무대에 서는 걸 좋아하고 표현력이 풍부한 사람',
+       figure:'BTS (유튜브·위버스 검색 가능), 아이유, 박서준'},
+      {n:'뷰티 크리에이터', tagline:'메이크업과 스타일링으로 나만의 작품을 만들어요', tags:['뷰티','콘텐츠'], isNew:true, isMentor:true,
+       desc:'메이크업·스킨케어·헤어 변신 영상을 만들어 많은 사람에게 뷰티 영감을 줘요.',
+       do:'뷰티 콘텐츠 기획·촬영, 브랜드 협업, SNS 운영',
+       fit:'뷰티를 좋아하고 표현하는 걸 즐기는 사람',
+       figure:'이사배 (뷰티 유튜버, 구독자 200만+ — 유튜브 검색 가능)'},
+    ],
+    connect:[
+      {n:'스타일리스트', tagline:'사람과 옷을 완벽하게 매칭해줘요', tags:['패션','연결'], isNew:false, isMentor:false,
+       desc:'연예인이나 브랜드에 어울리는 옷과 스타일을 코디해서 완성해줘요.',
+       do:'의상 코디, 브랜드 협찬 섭외, 현장 스타일링',
+       fit:'패션 감각 있고 사람들과 잘 맞추는 사람',
+       figure:'연예인 전담 스타일리스트'},
+      {n:'브랜드 캠페인 기획자', tagline:'패션·뷰티 브랜드와 세상을 연결해요', tags:['기획','마케팅'], isNew:true, isMentor:false,
+       desc:'패션·뷰티 브랜드의 광고와 캠페인을 기획해서 세상에 알려요.',
+       do:'캠페인 기획, 크리에이티브 방향 설정, 팀 협업',
+       fit:'아이디어 내는 걸 좋아하고 예쁜 것에 관심 있는 사람',
+       figure:'아모레퍼시픽, LF 마케팅팀'},
+      {n:'패션 에디터', tagline:'패션 브랜드와 독자를 감성적으로 이어줘요', tags:['미디어','패션'], isNew:false, isMentor:true,
+       desc:'패션 잡지나 디지털 미디어에서 브랜드와 독자 사이를 감각적인 콘텐츠로 연결해요.',
+       do:'화보 기획·제작, 트렌드 기사 작성, 브랜드 협업',
+       fit:'글쓰기와 패션 감각을 모두 갖춘 사람',
+       figure:'보그코리아, 하퍼스바자 에디터'},
+    ],
+    care:[
+      {n:'메이크업 아티스트', tagline:'사람들이 더 아름답게 빛날 수 있도록 도와요', tags:['뷰티','케어'], isNew:false, isMentor:false,
+       desc:'사람들의 얼굴을 아름답게 변신시켜주는 전문 메이크업 전문가예요.',
+       do:'메이크업 시술, 색상 연구, 고객 상담',
+       fit:'사람을 꾸미는 걸 좋아하고 섬세한 손 작업이 재미있는 사람',
+       figure:'정샘물 (메이크업 아티스트 — 유튜브·인스타그램 검색 가능)'},
+      {n:'웰니스 뷰티 케어리스트', tagline:'피부·몸·마음을 함께 가꾸어줘요', tags:['뷰티','건강'], isNew:true, isMentor:false,
+       desc:'피부·몸·마음 건강을 함께 챙기는 통합적인 뷰티 케어 전문가예요.',
+       do:'피부 관리, 웰니스 프로그램 운영, 고객 상담',
+       fit:'뷰티와 건강 모두에 관심 있고 돌봄을 즐기는 사람',
+       figure:'웰니스 스파, 뷰티 클리닉 전문가'},
+      {n:'헤어 디자이너', tagline:'머리카락으로 사람의 첫인상을 바꿔줘요', tags:['헤어','스타일'], isNew:false, isMentor:true,
+       desc:'트렌디한 헤어스타일을 디자인하고 고객에게 최적의 스타일을 제안해요.',
+       do:'헤어 컷·컬러·퍼머, 트렌드 연구, 고객 상담',
+       fit:'사람 외모에 관심 많고 손으로 무언가 만드는 걸 좋아하는 사람',
+       figure:'박준 헤어 (유명 헤어 디자이너), 연예인 전담 헤어 아티스트'},
+    ],
+    share:[
+      {n:'패션 인플루언서·크리에이터', tagline:'SNS로 트렌드를 만들고 영향력을 발휘해요', tags:['콘텐츠','패션'], isNew:false, isMentor:false,
+       desc:'패션, 뷰티, 라이프스타일 콘텐츠로 많은 팔로워에게 트렌드를 전달해요.',
+       do:'콘텐츠 기획·촬영, SNS 운영, 브랜드 협업',
+       fit:'자신을 표현하는 걸 좋아하고 트렌드에 민감한 사람',
+       figure:'유튜브·인스타 패션 크리에이터'},
+      {n:'영화감독·사진작가', tagline:'영상과 사진으로 아름다운 이야기를 담아요', tags:['영상','예술'], isNew:false, isMentor:false,
+       desc:'영화·사진으로 아름다운 이야기와 감동적인 순간을 담아내요.',
+       do:'촬영 기획, 현장 연출, 편집',
+       fit:'눈에 담기는 것들을 표현하고 싶은 사람',
+       figure:'봉준호 감독 (유튜브 인터뷰 검색 가능), 사진작가 배병우'},
+      {n:'K-뷰티 유튜버', tagline:'한국 뷰티 트렌드를 전 세계에 알려요', tags:['글로벌','뷰티'], isNew:true, isMentor:true,
+       desc:'한국의 스킨케어·메이크업 트렌드를 국내외 구독자들에게 영상으로 전달해요.',
+       do:'뷰티 콘텐츠 기획·촬영, 글로벌 구독자 소통, 브랜드 협업',
+       fit:'K-뷰티를 사랑하고 글로벌 시청자에게 소개하고 싶은 사람',
+       figure:'이사배, 회사원A (유튜브 뷰티 채널 — 검색 가능)'},
+    ],
+    explore:[
+      {n:'색채·소재 연구원', tagline:'패션·뷰티의 색과 소재를 과학적으로 연구해요', tags:['연구','디자인'], isNew:false, isMentor:false,
+       desc:'패션·뷰티 트렌드 컬러와 새로운 소재를 연구해서 제품에 반영해요.',
+       do:'트렌드 분석, 소재 실험, 색상 기획',
+       fit:'색깔과 재료에 민감하고 탐구하는 걸 좋아하는 사람',
+       figure:'PANTONE 컬러 연구소, 소재 연구원'},
+      {n:'K뷰티 글로벌 리서처', tagline:'한국 뷰티가 세계에서 어떻게 받아들여지는지 분석해요', tags:['연구','글로벌'], isNew:true, isMentor:false,
+       desc:'한국 뷰티가 세계에서 어떻게 받아들여지는지 조사·분석해요.',
+       do:'시장 조사, 트렌드 분석, 리포트 작성',
+       fit:'뷰티와 해외 문화 모두 관심 있는 사람',
+       figure:'아모레퍼시픽 글로벌 인사이트팀'},
+      {n:'트렌드 포캐스터', tagline:'미래의 패션·뷰티 트렌드를 미리 예측해요', tags:['연구','트렌드'], isNew:true, isMentor:true,
+       desc:'내년, 2년 후 유행할 색상·스타일·소재를 분석해 패션·뷰티 기업에 제공해요.',
+       do:'트렌드 데이터 수집·분석, 시즌 트렌드 발표, 기업 컨설팅',
+       fit:'유행에 예민하고 분석하는 걸 좋아하는 사람',
+       figure:'WGSN (세계 트렌드 예측기관), 아모레퍼시픽 트렌드 연구팀'},
+    ],
+    manage:[
+      {n:'뷰티 브랜드 MD', tagline:'뷰티 제품 라인업과 판매 전략을 기획해요', tags:['경영','뷰티'], isNew:false, isMentor:false,
+       desc:'뷰티 브랜드의 제품 라인업과 판매 전략을 기획하고 관리해요.',
+       do:'제품 기획, 바이어 미팅, 재고·판매 관리',
+       fit:'전략적으로 생각하고 뷰티 비즈니스에 관심 있는 사람',
+       figure:'올리브영, 세포라 MD'},
+      {n:'엔터테인먼트 PD', tagline:'아티스트의 음악·방송·공연을 총괄해요', tags:['방송','경영'], isNew:true, isMentor:false,
+       desc:'가수·배우의 음악, 방송, 공연 전체를 기획하고 이끄는 프로듀서예요.',
+       do:'프로젝트 총괄, 팀 조율, 콘텐츠 방향 설정',
+       fit:'음악과 방송을 좋아하고 이끄는 게 자연스러운 사람',
+       figure:'하이브, SM엔터테인먼트 PD'},
+      {n:'패션·뷰티 브랜드 창업가', tagline:'나만의 뷰티 브랜드를 만들어 세상에 내놓아요', tags:['창업','브랜드'], isNew:false, isMentor:true,
+       desc:'패션이나 뷰티 브랜드를 직접 창업해 제품 기획부터 판매까지 모두 이끌어요.',
+       do:'브랜드 기획·론칭, 제품 개발, 마케팅 전략',
+       fit:'뷰티·패션을 좋아하고 자신만의 브랜드를 갖고 싶은 사람',
+       figure:'무신사 한문일 대표, 젝시믹스 창업자'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     💬 말&글&법 (words)
+  ──────────────────────────────────────────────── */
+  words:{
+    make:[
+      {n:'작가·카피라이터', tagline:'글로 새로운 이야기와 메시지를 만들어요', tags:['글쓰기','창작'], isNew:false, isMentor:false,
+       desc:'소설, 시나리오, 광고 문구처럼 글로 새로운 이야기와 메시지를 만들어요.',
+       do:'원고 작성, 취재, 아이디어 개발',
+       fit:'글쓰기가 즐겁고 이야기 만드는 걸 좋아하는 사람',
+       figure:'조남주 작가 (82년생 김지영), 이케아 광고 카피라이터'},
+      {n:'AI 글쓰기 에디터', tagline:'AI와 사람이 함께 만드는 새로운 글쓰기예요', tags:['글쓰기','기술'], isNew:true, isMentor:false,
+       desc:'AI가 쓴 글을 사람의 감성에 맞게 다듬고 편집하는 새로운 직업이에요.',
+       do:'AI 출력물 검토·편집, 프롬프트 작성, 품질 관리',
+       fit:'글쓰기와 기술 모두에 관심 있는 사람',
+       figure:'AI 미디어 스타트업 에디터'},
+      {n:'웹툰 작가', tagline:'그림과 글로 나만의 세계관을 펼쳐요', tags:['만화','창작'], isNew:false, isMentor:true,
+       desc:'네이버·카카오 웹툰에서 내 이야기를 그림과 글로 연재하며 수많은 독자와 소통해요.',
+       do:'스토리·캐릭터 개발, 원고 제작, 독자 소통',
+       fit:'그림과 글 모두를 좋아하고 자신만의 이야기가 있는 사람',
+       figure:'기안84, 이말년 (웹툰 작가 — 유튜브·네이버 웹툰 검색 가능)'},
+    ],
+    connect:[
+      {n:'외교관·통번역가', tagline:'언어로 나라와 사람 사이에 다리를 놓아요', tags:['언어','외교'], isNew:false, isMentor:false,
+       desc:'나라와 나라, 사람과 사람 사이에서 언어와 문화를 연결해요.',
+       do:'외교 협상, 번역·통역, 국제 회의 참석',
+       fit:'언어를 좋아하고 다른 문화에 관심 있는 사람',
+       figure:'반기문 전 UN 사무총장 (유튜브 강연 검색 가능), 전문 통역사'},
+      {n:'글로벌 커뮤니케이션 매니저', tagline:'브랜드와 세계를 언어로 연결해요', tags:['글로벌','소통'], isNew:true, isMentor:false,
+       desc:'해외 파트너·미디어와의 소통을 담당해 브랜드와 세계를 연결해요.',
+       do:'해외 PR, 다국어 콘텐츠 기획, 파트너십 관리',
+       fit:'언어와 소통을 좋아하고 글로벌 감각 있는 사람',
+       figure:'글로벌 기업 PR·커뮤니케이션 팀'},
+      {n:'미디어 플래너', tagline:'광고주와 미디어를 이어 최적의 메시지를 전달해요', tags:['마케팅','미디어'], isNew:false, isMentor:true,
+       desc:'브랜드 광고가 가장 효과적으로 전달되도록 미디어 채널과 전략을 기획해요.',
+       do:'미디어 전략 수립, 광고 집행, 효과 분석',
+       fit:'언어와 전략적 사고를 함께 갖춘 사람',
+       figure:'이노션, 제일기획 미디어 전략팀'},
+    ],
+    care:[
+      {n:'심리상담사·멘탈 코치', tagline:'말로 사람의 마음을 치유하고 도와요', tags:['심리','케어'], isNew:false, isMentor:false,
+       desc:'어렵고 힘든 사람들의 마음을 들어주고 심리적으로 회복할 수 있게 도와줘요.',
+       do:'상담, 심리 검사, 자기 이해 프로그램 운영',
+       fit:'사람 마음에 관심 많고 들어주는 걸 잘하는 사람',
+       figure:'학교 상담사, 심리치료 전문가'},
+      {n:'공익 변호사', tagline:'법으로 사회 약자의 권리를 지켜요', tags:['법','사회'], isNew:false, isMentor:false,
+       desc:'사회적 약자의 권리를 지키기 위해 법적 도움을 제공하는 변호사예요.',
+       do:'법률 상담, 소송 대리, 정책 제안',
+       fit:'옳고 그름에 예민하고 약자를 돕고 싶은 사람',
+       figure:'법무법인 공감, 민변(민주사회를 위한 변호사 모임)'},
+      {n:'청소년 상담 전문가', tagline:'10대의 고민을 가장 잘 이해하는 어른이에요', tags:['상담','청소년'], isNew:false, isMentor:true,
+       desc:'학교 폭력, 진로 고민, 가족 갈등 등 청소년들이 겪는 어려움을 전문적으로 상담해줘요.',
+       do:'학생 상담, 위기 개입, 교사·부모 협력',
+       fit:'10대 마음을 잘 이해하고 진심으로 도우려는 사람',
+       figure:'학교 상담교사, Wee센터 청소년상담복지센터'},
+    ],
+    share:[
+      {n:'저널리스트·방송 앵커', tagline:'세상의 진실을 취재해서 사람들에게 알려요', tags:['미디어','언론'], isNew:false, isMentor:false,
+       desc:'세상에서 일어나는 일들을 취재해서 뉴스와 방송으로 전달해요.',
+       do:'취재·인터뷰, 기사 작성, 방송 진행',
+       fit:'말·글 잘하고 세상 돌아가는 일에 관심 있는 사람',
+       figure:'손석희 앵커 (유튜브 검색 가능), 방송 기자들'},
+      {n:'뉴스레터 작가·팟캐스터', tagline:'내 관점으로 콘텐츠를 만들고 구독자와 소통해요', tags:['콘텐츠','미디어'], isNew:true, isMentor:false,
+       desc:'자신만의 관점으로 구독 뉴스레터나 팟캐스트를 운영하며 독자와 소통해요.',
+       do:'콘텐츠 기획·작성, 구독자 관리, 인터뷰',
+       fit:'글쓰기와 말하기 둘 다 좋아하고 나만의 시각이 있는 사람',
+       figure:'뉴닉, 슬로우뉴스 운영자'},
+      {n:'방송 작가·예능 PD', tagline:'재미있는 이야기로 사람들을 웃게 만들어요', tags:['방송','창작'], isNew:false, isMentor:true,
+       desc:'예능 프로그램의 아이디어를 기획하고 대본을 쓰거나 프로그램 전체를 연출해요.',
+       do:'프로그램 기획, 대본 작성, 출연진 섭외, 현장 연출',
+       fit:'아이디어가 풍부하고 사람들을 즐겁게 만드는 걸 좋아하는 사람',
+       figure:'나영석 PD (tvN — 유튜브 채널 운영, 검색 가능)'},
+    ],
+    explore:[
+      {n:'철학자·사회학자', tagline:'"왜?"라는 질문으로 세상의 진실을 파고들어요', tags:['연구','사회'], isNew:false, isMentor:false,
+       desc:'"왜 이렇게 살아야 하지?" "사회는 왜 이런 구조일까?"를 깊이 연구해요.',
+       do:'연구·집필, 강의, 토론',
+       fit:'깊이 생각하는 걸 좋아하고 삶의 의미에 관심 있는 사람',
+       figure:'마이클 샌델 교수 (유튜브 정의란 무엇인가 강연 검색 가능)'},
+      {n:'미디어 리터러시 연구자', tagline:'가짜뉴스·SNS의 영향을 연구하고 해법을 찾아요', tags:['연구','미디어'], isNew:true, isMentor:false,
+       desc:'사람들이 뉴스·SNS를 제대로 이해하고 비판적으로 읽을 수 있도록 연구해요.',
+       do:'미디어 교육 연구, 실험, 교육 프로그램 개발',
+       fit:'미디어와 사회 문제에 관심 있는 사람',
+       figure:'언론진흥재단 연구원'},
+      {n:'법철학·인권 연구자', tagline:'더 정의로운 사회를 위한 이론을 연구해요', tags:['연구','법'], isNew:false, isMentor:true,
+       desc:'법과 정의란 무엇인지, 인권이 어떻게 보호받아야 하는지를 깊이 탐구해요.',
+       do:'논문 집필, 강의, 정책 자문',
+       fit:'옳고 그름에 진지한 관심이 있고 깊이 생각하는 사람',
+       figure:'마이클 샌델 (하버드 — 유튜브 강연), 국내 법철학 교수'},
+    ],
+    manage:[
+      {n:'판사·검사', tagline:'법에 따라 사회의 옳고 그름을 판단해요', tags:['법','사회'], isNew:false, isMentor:false,
+       desc:'법에 따라 사건을 판결하거나 범죄를 수사하며 사회 질서를 지켜요.',
+       do:'사건 조사, 공판 진행, 판결',
+       fit:'논리적이고 옳고 그름을 판단하는 걸 잘하는 사람',
+       figure:'대법관, 검사장'},
+      {n:'리걸테크 스타트업 대표', tagline:'AI·기술로 법률 서비스를 혁신해요', tags:['법','기술'], isNew:true, isMentor:false,
+       desc:'AI·기술로 법률 서비스를 더 쉽고 빠르게 만드는 회사를 창업해요.',
+       do:'사업 기획, 법률 AI 개발, 투자 유치',
+       fit:'법과 기술을 모두 이해하고 창업에 관심 있는 사람',
+       figure:'로톡, AI 계약서 검토 스타트업 대표'},
+      {n:'출판사·미디어 대표', tagline:'책과 미디어로 세상에 가치 있는 이야기를 펼쳐요', tags:['경영','미디어'], isNew:false, isMentor:true,
+       desc:'출판사나 미디어 회사를 창업해 사람들에게 가치 있는 이야기와 정보를 전달해요.',
+       do:'출판 기획, 작가 발굴, 경영 전반',
+       fit:'글과 미디어를 사랑하고 비즈니스 감각도 있는 사람',
+       figure:'뉴닉 공동창업자, 민음사·창비 편집장'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     💻 기술&디지털 (tech)
+  ──────────────────────────────────────────────── */
+  tech:{
+    make:[
+      {n:'소프트웨어 개발자', tagline:'코드로 세상 사람들이 매일 쓰는 서비스를 만들어요', tags:['코딩','기술'], isNew:false, isMentor:false,
+       desc:'앱, 웹사이트, 게임 등 우리가 매일 쓰는 디지털 제품을 코드로 만들어요.',
+       do:'프로그래밍, 기능 개발, 버그 수정',
+       fit:'논리적으로 생각하고 뭔가 만드는 걸 좋아하는 사람',
+       figure:'김범수 (카카오 창업자), 이해진 (네이버 창업자)'},
+      {n:'AI 프롬프트 엔지니어', tagline:'AI가 최고의 결과를 내도록 질문을 설계해요', tags:['AI','기술'], isNew:true, isMentor:false,
+       desc:'ChatGPT 같은 AI가 최고의 결과를 내도록 질문과 지시를 설계하는 전문가예요.',
+       do:'프롬프트 설계·테스트, AI 활용 사례 개발',
+       fit:'언어와 기술 모두 흥미 있고 실험을 좋아하는 사람',
+       figure:'오픈AI, 카카오 AI 팀'},
+      {n:'인디 게임 개발자', tagline:'나만의 게임 세계를 혼자 또는 소규모로 만들어요', tags:['게임','창작'], isNew:false, isMentor:true,
+       desc:'혼자 또는 소규모 팀으로 게임 아이디어를 직접 만들어 세상에 내놓는 창작자예요.',
+       do:'게임 기획·개발·배포, 사용자 피드백 반영',
+       fit:'게임을 좋아하고 뭔가 직접 만들어보고 싶은 사람',
+       figure:'잇섭 (IT 유튜버 — 유튜브 구독자 200만+, 검색 가능)'},
+    ],
+    connect:[
+      {n:'플랫폼 기획자', tagline:'사람과 서비스를 연결하는 디지털 플랫폼을 기획해요', tags:['기획','서비스'], isNew:false, isMentor:false,
+       desc:'카카오, 네이버, 배달앱처럼 사람과 서비스를 연결하는 플랫폼을 기획해요.',
+       do:'서비스 기획, 사용자 분석, 팀 조율',
+       fit:'아이디어 많고 사람들이 뭘 원하는지 잘 파악하는 사람',
+       figure:'카카오, 토스, 배달의민족 기획팀'},
+      {n:'오픈소스 커뮤니티 매니저', tagline:'전 세계 개발자들이 함께 만드는 프로젝트를 이끌어요', tags:['커뮤니티','기술'], isNew:true, isMentor:false,
+       desc:'전 세계 개발자들이 함께 만드는 오픈소스 프로젝트 커뮤니티를 운영해요.',
+       do:'커뮤니티 운영, 기여자 소통, 이벤트 기획',
+       fit:'사람들을 연결하고 기술 문화에 관심 있는 사람',
+       figure:'구글, 메타 오픈소스팀'},
+      {n:'테크 스타트업 공동창업자', tagline:'기술로 새로운 세상을 만드는 창업가예요', tags:['창업','기술'], isNew:false, isMentor:true,
+       desc:'기술적 아이디어를 사업으로 만들어 사람들의 문제를 해결하는 스타트업을 창업해요.',
+       do:'사업 기획, 팀 빌딩, 투자 유치, 제품 개발',
+       fit:'기술을 이해하고 창업에 도전하고 싶은 사람',
+       figure:'이승건 (토스 대표 — 유튜브 강연 검색 가능)'},
+    ],
+    care:[
+      {n:'UX 연구원', tagline:'사람들이 더 편하게 서비스를 쓸 수 있게 연구해요', tags:['사용자','서비스'], isNew:false, isMentor:false,
+       desc:'앱이나 서비스를 쓰는 사람들이 더 편하게 느끼도록 연구하고 개선해요.',
+       do:'사용자 인터뷰, 사용성 테스트, 개선 제안',
+       fit:'사람 심리에 관심 많고 꼼꼼하게 관찰하는 사람',
+       figure:'네이버·카카오 UX 연구팀'},
+      {n:'AI 윤리 연구원', tagline:'AI가 차별하지 않도록 윤리 기준을 만들어요', tags:['AI','사회'], isNew:true, isMentor:false,
+       desc:'AI가 차별이나 해악을 만들지 않도록 윤리 기준을 연구하고 정책을 만들어요.',
+       do:'AI 편향성 분석, 윤리 가이드라인 작성, 연구 발표',
+       fit:'기술과 사회 문제 모두에 관심 있는 사람',
+       figure:'오픈AI 안전팀, KAIST AI 윤리 연구소'},
+      {n:'디지털 접근성 전문가', tagline:'장애인·노인도 디지털 서비스를 편하게 쓸 수 있게 해요', tags:['접근성','서비스'], isNew:true, isMentor:true,
+       desc:'시각장애·청각장애·고령자 등 모든 사람이 디지털 서비스를 사용할 수 있도록 기준을 만들고 개선해요.',
+       do:'접근성 가이드라인 개발, 테스트, 개발팀 컨설팅',
+       fit:'기술과 사람을 모두 배려하고 싶은 사람',
+       figure:'NHN, 카카오 접근성팀'},
+    ],
+    share:[
+      {n:'테크 유튜버·크리에이터', tagline:'최신 기술과 AI를 누구나 쉽게 이해하게 설명해요', tags:['콘텐츠','기술'], isNew:false, isMentor:false,
+       desc:'최신 기술, AI, 앱 리뷰를 영상으로 만들어 많은 사람에게 쉽게 설명해요.',
+       do:'영상 기획·촬영·편집, 기술 리서치',
+       fit:'기술을 좋아하고 설명하는 걸 잘하는 사람',
+       figure:'잇섭 (IT 유튜버, 구독자 200만+ — 유튜브 검색 가능)'},
+      {n:'인플루언서 운영자', tagline:'디지털 채널을 전략적으로 키우고 관리해요', tags:['마케팅','디지털'], isNew:true, isMentor:false,
+       desc:'인플루언서 채널을 전략적으로 운영하고 브랜드 협업을 관리해요.',
+       do:'콘텐츠 전략 수립, 브랜드 협업 관리, 데이터 분석',
+       fit:'디지털 마케팅과 SNS 트렌드에 밝은 사람',
+       figure:'MCN (다이아 TV, 샌드박스 등) 매니저'},
+      {n:'IT 제품 리뷰어', tagline:'스마트폰·AI·최신 기기를 솔직하게 리뷰해요', tags:['리뷰','IT'], isNew:false, isMentor:true,
+       desc:'최신 스마트폰, 노트북, AI 서비스를 직접 써보고 솔직한 리뷰를 콘텐츠로 만들어요.',
+       do:'제품 테스트, 리뷰 영상·글 제작, 구독자 소통',
+       fit:'새 기기에 호기심이 많고 의견을 표현하는 걸 좋아하는 사람',
+       figure:'잇섭 (유튜브 — 구독자 200만+, 검색 가능), 라떼는말이야'},
+    ],
+    explore:[
+      {n:'데이터 과학자', tagline:'데이터에서 숨겨진 패턴과 인사이트를 발견해요', tags:['연구','데이터'], isNew:false, isMentor:false,
+       desc:'엄청난 양의 데이터에서 패턴을 찾아 의미 있는 인사이트를 뽑아내요.',
+       do:'데이터 수집·분석, 모델 개발, 결과 시각화',
+       fit:'수학·통계를 좋아하고 문제를 파고드는 사람',
+       figure:'네이버, 삼성 데이터 사이언스팀'},
+      {n:'메타버스 기술 연구자', tagline:'가상과 현실이 연결되는 미래 기술을 연구해요', tags:['연구','미래'], isNew:true, isMentor:false,
+       desc:'가상 현실과 현실이 연결되는 메타버스 기술을 연구하고 개발해요.',
+       do:'VR/AR 기술 실험, 인터랙션 연구, 논문 발표',
+       fit:'미래 기술에 흥미 있고 상상력이 풍부한 사람',
+       figure:'메타, 마이크로소프트 리서치팀'},
+      {n:'양자컴퓨팅 연구자', tagline:'미래 컴퓨터의 한계를 넘는 기술을 탐구해요', tags:['연구','첨단'], isNew:true, isMentor:true,
+       desc:'기존 컴퓨터보다 수백만 배 빠른 양자 컴퓨터 기술을 연구해요.',
+       do:'양자 알고리즘 연구, 실험, 논문 발표',
+       fit:'수학·물리에 강하고 최첨단 기술에 흥미 있는 사람',
+       figure:'IBM Quantum, KAIST 양자정보연구소'},
+    ],
+    manage:[
+      {n:'CTO·IT 스타트업 대표', tagline:'기술 팀을 이끌거나 직접 IT 회사를 창업해요', tags:['리더십','기술'], isNew:false, isMentor:false,
+       desc:'기술 팀을 이끌거나 직접 IT 회사를 창업해서 운영해요.',
+       do:'기술 방향 결정, 팀 채용·관리, 투자 유치',
+       fit:'기술을 이해하고 이끄는 걸 좋아하는 사람',
+       figure:'이승건 (토스), 김봉진 (배달의민족 창업자)'},
+      {n:'클라우드 인프라 매니저', tagline:'기업의 디지털 시스템이 안정적으로 돌아가게 해요', tags:['운영','기술'], isNew:true, isMentor:false,
+       desc:'기업의 서버·클라우드 시스템이 안정적으로 돌아가도록 총괄해요.',
+       do:'인프라 설계·운영, 장애 대응, 팀 관리',
+       fit:'꼼꼼하고 시스템 안정성에 관심 있는 사람',
+       figure:'AWS, 네이버 클라우드 인프라 매니저'},
+      {n:'디지털 전환 컨설턴트', tagline:'전통 기업이 디지털로 변신하도록 도와요', tags:['컨설팅','기술'], isNew:true, isMentor:true,
+       desc:'오프라인 중심의 기업이 IT·디지털 기술을 도입해 더 효율적으로 변신하도록 컨설팅해요.',
+       do:'현황 분석, 디지털 전략 수립, 시스템 도입 지원',
+       fit:'기술과 경영을 모두 이해하고 사람들을 설득하는 걸 잘하는 사람',
+       figure:'삼성SDS, 딜로이트 디지털 컨설팀'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     🏗 공간&재료 (space)
+  ──────────────────────────────────────────────── */
+  space:{
+    make:[
+      {n:'건축가·인테리어 디자이너', tagline:'공간을 아름답고 기능적으로 설계해요', tags:['디자인','공간'], isNew:false, isMentor:false,
+       desc:'건물과 실내 공간을 아름답고 기능적으로 설계해요.',
+       do:'공간 설계, 도면 작성, 자재 선택',
+       fit:'그림 그리기와 공간 감각이 있는 사람',
+       figure:'유현준 교수 (유튜브: 유현준의 공간 — 구독자 100만+ 검색 가능)'},
+      {n:'AI·3D 공간 디자이너', tagline:'AI와 3D 기술로 공간을 새롭게 디자인해요', tags:['기술','디자인'], isNew:true, isMentor:false,
+       desc:'AI와 3D 기술로 가상 공간을 디자인하거나 실제 공간 계획을 시뮬레이션해요.',
+       do:'3D 모델링, AI 도구 활용, 가상 공간 설계',
+       fit:'기술과 디자인 모두 흥미 있는 사람',
+       figure:'메타버스 공간 디자인 스타트업'},
+      {n:'미니어처·모형 제작가', tagline:'실제보다 작지만 완벽한 공간 모형을 만들어요', tags:['제작','모형'], isNew:false, isMentor:true,
+       desc:'건축 모형, 세트 소품, 미니어처 세계를 손으로 정교하게 만들어요.',
+       do:'모형 설계·제작, 소재 선택, 디테일 작업',
+       fit:'손으로 정교한 것 만드는 걸 좋아하고 공간 감각이 있는 사람',
+       figure:'유현준 교수 (유튜브: 유현준의 공간), 영화 세트 모형 제작팀'},
+    ],
+    connect:[
+      {n:'부동산 중개사', tagline:'집이 필요한 사람에게 딱 맞는 공간을 연결해줘요', tags:['중개','공간'], isNew:false, isMentor:false,
+       desc:'집을 사고 팔거나 빌리려는 사람들 사이를 연결해주는 전문가예요.',
+       do:'매물 발굴, 고객 상담, 계약 체결',
+       fit:'사람 만나는 걸 좋아하고 설득력 있는 사람',
+       figure:'공인중개사'},
+      {n:'공간 공유 플랫폼 운영자', tagline:'남는 공간과 필요한 사람을 스마트하게 이어줘요', tags:['플랫폼','공간'], isNew:true, isMentor:false,
+       desc:'공유 오피스·스튜디오·주방 등 공간을 필요한 사람에게 연결하는 서비스를 운영해요.',
+       do:'플랫폼 기획, 공간 확보, 고객 매칭',
+       fit:'공간과 사람을 연결하는 걸 좋아하는 사람',
+       figure:'패스트파이브, 위워크 운영팀'},
+      {n:'공간 마케터', tagline:'공간의 가치를 알리고 더 많은 사람을 끌어들여요', tags:['마케팅','공간'], isNew:true, isMentor:true,
+       desc:'호텔, 카페, 공유 오피스 등 공간 브랜드를 사람들에게 매력적으로 알리는 마케터예요.',
+       do:'공간 브랜딩, SNS 마케팅, 이벤트 기획',
+       fit:'공간 감각과 마케팅 감각을 모두 갖춘 사람',
+       figure:'에어비앤비 코리아 마케팅팀, 패스트파이브 브랜드팀'},
+    ],
+    care:[
+      {n:'문화재 보존 전문가', tagline:'오래된 건물과 유물이 미래로 전해지도록 지켜요', tags:['보존','문화'], isNew:false, isMentor:false,
+       desc:'오래된 건물, 유물, 문화재가 후대에 전해질 수 있도록 복원하고 보존해요.',
+       do:'상태 조사, 복원 작업, 기록 관리',
+       fit:'역사와 예술을 좋아하고 꼼꼼한 사람',
+       figure:'국립문화재연구원'},
+      {n:'업사이클링 디자이너', tagline:'버려지는 것에 새로운 생명을 불어넣어요', tags:['환경','디자인'], isNew:true, isMentor:false,
+       desc:'버려지는 재료와 공간을 새로운 디자인으로 재탄생시켜요.',
+       do:'소재 발굴, 리디자인, 제품 제작',
+       fit:'환경에 관심 있고 창의적으로 만드는 걸 좋아하는 사람',
+       figure:'업사이클링 브랜드 큐클리프 등'},
+      {n:'친환경 건축가', tagline:'자연과 공존하는 친환경 건물을 만들어요', tags:['환경','건축'], isNew:true, isMentor:true,
+       desc:'에너지 소비를 줄이고 자연과 조화를 이루는 그린 빌딩을 설계해요.',
+       do:'친환경 설계, 에너지 분석, 자재 연구',
+       fit:'건축과 환경 문제 모두에 관심 있는 사람',
+       figure:'서울시 그린 리모델링 건축사, 친환경 건축사무소 SoA'},
+    ],
+    share:[
+      {n:'공간 스타일리스트', tagline:'공간을 콘셉트에 맞게 아름답게 꾸며요', tags:['스타일링','공간'], isNew:false, isMentor:false,
+       desc:'방, 카페, 사무실 등의 공간을 콘셉트에 맞게 스타일링해서 아름답게 꾸며요.',
+       do:'공간 기획, 소품·가구 선택, 촬영 연출',
+       fit:'인테리어 감각 있고 꾸미는 걸 좋아하는 사람',
+       figure:'인스타그램 공간 스타일리스트'},
+      {n:'공간 트렌드 에디터', tagline:'인테리어·공간 트렌드를 미디어로 전달해요', tags:['미디어','공간'], isNew:true, isMentor:false,
+       desc:'인테리어, 건축, 라이프스타일 공간 트렌드를 잡지·유튜브·SNS로 전달해요.',
+       do:'트렌드 취재, 콘텐츠 작성·촬영, 에디터 작업',
+       fit:'공간을 보는 눈이 있고 표현하는 걸 좋아하는 사람',
+       figure:'Dezeen, 아이디어스 에디터'},
+      {n:'인테리어 유튜버', tagline:'집 꾸미는 법을 영상으로 쉽고 감각적으로 알려줘요', tags:['유튜브','인테리어'], isNew:false, isMentor:true,
+       desc:'좁은 집도 넓어 보이게, 저렴하게도 예쁘게 꾸미는 방법을 유튜브로 공유해요.',
+       do:'인테리어 영상 기획·촬영, 공간 연출, 구독자 소통',
+       fit:'인테리어를 좋아하고 영상으로 보여주는 걸 즐기는 사람',
+       figure:'유현준 교수 (유튜브: 유현준의 공간 검색 가능), 인테리어 유튜버'},
+    ],
+    explore:[
+      {n:'도시 계획가', tagline:'더 살기 좋은 도시를 어떻게 만들지 연구해요', tags:['연구','도시'], isNew:false, isMentor:false,
+       desc:'도시가 더 살기 좋고 효율적으로 발전하도록 장기 계획을 세워요.',
+       do:'도시 분석, 계획 수립, 관청 협의',
+       fit:'사회와 공간에 관심 있고 분석적인 사람',
+       figure:'서울시 도시계획연구원'},
+      {n:'스마트시티 연구원', tagline:'AI·IoT로 미래 도시 기술을 연구해요', tags:['연구','기술'], isNew:true, isMentor:false,
+       desc:'AI, IoT를 활용해 더 효율적이고 친환경적인 미래 도시 기술을 연구해요.',
+       do:'기술 실험, 도시 데이터 분석, 정책 제안',
+       fit:'기술과 도시 문제 모두 관심 있는 사람',
+       figure:'KAIST 스마트시티연구소'},
+      {n:'건축 역사·문화 연구자', tagline:'건물에 담긴 역사와 문화를 탐구해요', tags:['연구','역사'], isNew:false, isMentor:true,
+       desc:'시대마다 건물이 어떻게 바뀌었는지 연구해 사람과 공간의 관계를 이해해요.',
+       do:'건축 역사 연구, 현장 조사, 강의·집필',
+       fit:'역사와 공간에 모두 관심 있는 사람',
+       figure:'유현준 교수 (HONGIK대 — 유튜브 채널 운영, 검색 가능)'},
+    ],
+    manage:[
+      {n:'건설 프로젝트 매니저', tagline:'건물 프로젝트 전체를 기획하고 총괄해요', tags:['경영','건설'], isNew:false, isMentor:false,
+       desc:'건물 짓는 프로젝트 전체를 기획하고 일정·예산·팀을 총괄해요.',
+       do:'일정 관리, 예산 조율, 협력사 관리',
+       fit:'꼼꼼하고 여러 팀을 조율하는 걸 잘하는 사람',
+       figure:'대형 건설사 현장 소장'},
+      {n:'공유 오피스 운영자', tagline:'함께 일하는 코워킹 공간을 기획하고 운영해요', tags:['경영','공간'], isNew:true, isMentor:false,
+       desc:'코워킹스페이스처럼 함께 쓰는 공간을 기획하고 운영해요.',
+       do:'공간 기획, 고객 관리, 커뮤니티 운영',
+       fit:'사람들과 함께하는 환경을 만드는 걸 좋아하는 사람',
+       figure:'패스트파이브, 스파크플러스 운영자'},
+      {n:'부동산 개발 디벨로퍼', tagline:'새로운 공간과 도시를 개발하는 사업가예요', tags:['경영','개발'], isNew:false, isMentor:true,
+       desc:'땅이나 낡은 건물을 새로운 가치 있는 공간으로 개발하는 부동산 개발 사업가예요.',
+       do:'부지 발굴, 개발 기획, 시공 관리, 투자 유치',
+       fit:'큰 프로젝트를 이끌고 공간의 가능성을 보는 사람',
+       figure:'HDC현대산업개발, 롯데건설 개발사업팀'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     🤝 사람&관계 (people)
+  ──────────────────────────────────────────────── */
+  people:{
+    make:[
+      {n:'교육 콘텐츠 제작자', tagline:'학생이 더 쉽고 재미있게 배울 수 있는 콘텐츠를 만들어요', tags:['교육','창작'], isNew:false, isMentor:false,
+       desc:'학생들이 더 쉽고 재미있게 배울 수 있도록 교육 영상, 교재, 프로그램을 만들어요.',
+       do:'커리큘럼 설계, 콘텐츠 제작, 학습 효과 분석',
+       fit:'가르치는 걸 좋아하고 창의적으로 만드는 사람',
+       figure:'EBS 제작팀, 유튜브 공부 채널'},
+      {n:'에듀테크 크리에이터', tagline:'AI·앱으로 새로운 방식의 교육을 만들어요', tags:['교육','기술'], isNew:true, isMentor:false,
+       desc:'AI·앱·게임을 활용한 새로운 방식의 교육 콘텐츠를 만들어요.',
+       do:'에듀테크 콘텐츠 기획·제작, 플랫폼 운영',
+       fit:'교육과 기술을 결합하는 걸 좋아하는 사람',
+       figure:'클래스101, 링글 크리에이터'},
+      {n:'보드게임·교육 게임 디자이너', tagline:'배움이 놀이가 되는 게임을 만들어요', tags:['게임','교육'], isNew:true, isMentor:true,
+       desc:'사람들이 놀면서 배울 수 있는 교육적 보드게임이나 카드 게임을 기획하고 만들어요.',
+       do:'게임 규칙 설계, 테스트, 출시 기획',
+       fit:'게임과 교육을 모두 좋아하고 창의적인 사람',
+       figure:'코리아보드게임즈 디자이너, 클래스101 보드게임 강사'},
+    ],
+    connect:[
+      {n:'사회적 기업가', tagline:'사회 문제를 비즈니스로 해결하는 창업가예요', tags:['사회','비즈니스'], isNew:false, isMentor:false,
+       desc:'사회 문제를 비즈니스 방식으로 해결하는 회사를 만들고 운영해요.',
+       do:'사업 기획, 이해관계자 연결, 임팩트 측정',
+       fit:'사회 문제에 관심 있고 창업하고 싶은 사람',
+       figure:'트리플래닛 김형수 대표'},
+      {n:'코칭·멘토링 전문가', tagline:'사람이 목표를 찾고 성장하도록 1:1로 도와요', tags:['코칭','사람'], isNew:false, isMentor:false,
+       desc:'사람들이 자신의 목표를 찾고 성장할 수 있도록 1:1로 도와줘요.',
+       do:'코칭 세션 운영, 목표 설정 지원, 성장 트래킹',
+       fit:'사람과 깊이 대화하고 성장을 돕는 걸 좋아하는 사람',
+       figure:'라이프코치, 커리어 코치'},
+      {n:'커뮤니티 빌더', tagline:'같은 관심사를 가진 사람들을 모아 커뮤니티를 만들어요', tags:['커뮤니티','연결'], isNew:true, isMentor:true,
+       desc:'공통의 관심사나 목표를 가진 사람들을 모아 함께 성장하는 커뮤니티를 만들어요.',
+       do:'커뮤니티 기획·운영, 이벤트 개최, 멤버 관리',
+       fit:'사람들을 모으고 연결하는 걸 즐기는 사람',
+       figure:'트리플래닛, 문화예술 커뮤니티 운영자'},
+    ],
+    care:[
+      {n:'사회복지사', tagline:'어려운 상황에 있는 사람이 더 나은 삶을 살도록 도와요', tags:['복지','케어'], isNew:false, isMentor:false,
+       desc:'어렵고 취약한 처지에 있는 사람들이 더 나은 삶을 살도록 직접 도와줘요.',
+       do:'상담, 복지 서비스 연결, 생활 지원',
+       fit:'사람을 돕는 게 자연스럽고 공감 능력이 높은 사람',
+       figure:'지역 복지관 사회복지사'},
+      {n:'온라인 정신건강 플래너', tagline:'앱과 온라인으로 마음 건강을 관리해줘요', tags:['건강','디지털'], isNew:true, isMentor:false,
+       desc:'앱이나 온라인 플랫폼으로 사람들의 정신건강을 관리하고 지원해요.',
+       do:'온라인 상담 프로그램 설계, 콘텐츠 개발, 이용자 지원',
+       fit:'마음 건강에 관심 있고 디지털 서비스를 잘 이해하는 사람',
+       figure:'마인드카페, 트로스트 플래너'},
+      {n:'특수교육 교사', tagline:'모든 아이가 함께 배울 수 있도록 특별히 도와요', tags:['교육','케어'], isNew:false, isMentor:true,
+       desc:'발달장애·청각장애 등 특수한 지원이 필요한 학생들을 전문적으로 가르치고 돌봐요.',
+       do:'개별화 교육 계획 수립, 수업, 부모 상담',
+       fit:'모든 아이의 가능성을 믿고 돕고 싶은 사람',
+       figure:'특수학교 교사, 한국특수교육학회'},
+    ],
+    share:[
+      {n:'선생님·교사', tagline:'학생들이 자라나도록 이끌어주는 교육 전문가예요', tags:['교육','사람'], isNew:false, isMentor:false,
+       desc:'학생들이 배우고 성장하도록 가르치고 이끌어주는 교육 전문가예요.',
+       do:'수업 설계·진행, 학생 상담, 평가',
+       fit:'가르치는 게 보람되고 학생들과 함께하는 걸 좋아하는 사람',
+       figure:'학교 교사, 학원 강사'},
+      {n:'임팩트 저널리스트', tagline:'사회 문제를 깊이 취재해서 세상을 바꿔요', tags:['미디어','사회'], isNew:true, isMentor:false,
+       desc:'사회 취약계층, 환경, 불평등 문제를 깊이 취재해서 세상에 알려요.',
+       do:'탐사 취재, 기사 작성, 사회 변화 캠페인',
+       fit:'사회 문제에 관심 있고 글로 변화를 만들고 싶은 사람',
+       figure:'한겨레, 오마이뉴스 탐사보도팀'},
+      {n:'교육 유튜버·강연가', tagline:'사람들의 생각을 바꾸는 강연과 영상을 만들어요', tags:['강연','미디어'], isNew:false, isMentor:true,
+       desc:'어렵고 중요한 개념을 재미있고 쉽게 설명하는 강연·영상을 만들어 사람들에게 영향을 줘요.',
+       do:'강연 콘텐츠 기획, 유튜브 운영, 이벤트 강연',
+       fit:'사람들에게 영향을 미치고 싶고 설명을 잘하는 사람',
+       figure:'김미경 (유튜브 MKYU — 검색 가능), 최진기 강사'},
+    ],
+    explore:[
+      {n:'교육 연구자', tagline:'더 나은 교육 방법을 데이터로 연구해요', tags:['연구','교육'], isNew:false, isMentor:false,
+       desc:'더 좋은 교육 방법, 교육 제도를 연구해요.',
+       do:'교육 실험, 데이터 분석, 논문·정책 제안',
+       fit:'교육에 진지하게 관심 있고 연구를 좋아하는 사람',
+       figure:'한국교육과정평가원 연구원'},
+      {n:'디지털 사회 연구자', tagline:'SNS·AI가 인간 관계에 어떤 영향을 주는지 연구해요', tags:['연구','사회'], isNew:true, isMentor:false,
+       desc:'SNS, AI가 사람들의 관계와 사회에 어떤 영향을 미치는지 연구해요.',
+       do:'소셜 데이터 분석, 연구 설계, 논문 발표',
+       fit:'디지털과 사회 문제 모두에 관심 있는 사람',
+       figure:'KAIST·서울대 사회학과 연구소'},
+      {n:'사회심리학 연구자', tagline:'사람들이 왜 그런 행동을 하는지 탐구해요', tags:['연구','심리'], isNew:false, isMentor:true,
+       desc:'집단 속에서 사람들이 어떻게 생각하고 행동하는지를 과학적으로 탐구해요.',
+       do:'심리 실험 설계, 데이터 수집·분석, 논문 발표',
+       fit:'사람 마음과 사회에 모두 관심 있는 사람',
+       figure:'정재승 교수 (KAIST — 유튜브 강연 검색 가능)'},
+    ],
+    manage:[
+      {n:'NGO·비영리 단체 운영자', tagline:'사회 가치를 위해 활동하는 단체를 이끌어요', tags:['사회','경영'], isNew:false, isMentor:false,
+       desc:'환경·인권·교육 등 사회 가치를 위해 활동하는 단체를 이끌어요.',
+       do:'사업 기획, 기금 조성, 팀 운영',
+       fit:'사회 변화를 원하고 이끄는 걸 좋아하는 사람',
+       figure:'UNICEF 한국위원회, 아름다운재단'},
+      {n:'소셜임팩트 펀드 매니저', tagline:'사회적 가치를 만드는 기업에 투자해요', tags:['투자','사회'], isNew:true, isMentor:false,
+       desc:'사회적 가치를 만드는 기업에 투자하고 성장을 지원해요.',
+       do:'투자 심사, 포트폴리오 관리, 성과 측정',
+       fit:'비즈니스와 사회 문제 해결 둘 다 관심 있는 사람',
+       figure:'소풍벤처스, 임팩트 투자 펀드'},
+      {n:'학교·교육 기관 운영자', tagline:'학생들이 더 잘 배울 수 있는 환경을 만들어요', tags:['경영','교육'], isNew:false, isMentor:true,
+       desc:'학교나 교육 기관을 운영하면서 더 나은 교육 환경을 만들고 선생님·학생 모두를 이끌어요.',
+       do:'교육 과정 기획, 예산 관리, 교사 리더십',
+       fit:'교육에 사명감이 있고 이끄는 걸 좋아하는 사람',
+       figure:'혁신학교 교장, 대안학교 운영자'},
+    ],
+  },
+
+  /* ────────────────────────────────────────────────
+     💰 돈&경제 (economy)
+  ──────────────────────────────────────────────── */
+  economy:{
+    make:[
+      {n:'핀테크 개발자', tagline:'토스·카카오페이 같은 금융 앱을 코드로 만들어요', tags:['금융','기술'], isNew:false, isMentor:false,
+       desc:'토스·카카오페이 같은 금융 앱과 서비스를 코드로 만들어요.',
+       do:'금융 앱 개발, 보안 설계, 결제 시스템 구현',
+       fit:'코딩을 좋아하고 금융에 관심 있는 사람',
+       figure:'토스, 카카오페이 개발팀'},
+      {n:'블록체인·Web3 개발자', tagline:'블록체인으로 새로운 금융 시스템을 만들어요', tags:['기술','금융'], isNew:true, isMentor:false,
+       desc:'블록체인 기술로 새로운 금융 시스템과 디지털 자산 서비스를 만들어요.',
+       do:'스마트 계약 개발, 블록체인 프로토콜 구현',
+       fit:'최신 기술에 관심 많고 금융 혁신에 흥미 있는 사람',
+       figure:'이더리움 재단, 국내 블록체인 스타트업'},
+      {n:'경제 교육 게임 기획자', tagline:'경제 원리를 게임으로 재미있게 만들어요', tags:['교육','금융'], isNew:true, isMentor:true,
+       desc:'주식·창업·예산 관리 같은 경제 개념을 10대도 재미있게 배울 수 있는 게임으로 만들어요.',
+       do:'게임 기획, 경제 개념 설계, 테스트·출시',
+       fit:'경제와 게임 두 가지 모두 좋아하는 사람',
+       figure:'토스 금융 교육팀, 청소년 경제 교육 프로그램 기획자'},
+    ],
+    connect:[
+      {n:'투자 심사역 (VC)', tagline:'좋은 스타트업을 찾아 투자하고 성장을 이끌어요', tags:['투자','비즈니스'], isNew:false, isMentor:false,
+       desc:'좋은 스타트업을 찾아 투자하고 성장을 함께 이끌어요.',
+       do:'스타트업 발굴, 투자 심사, 사업 자문',
+       fit:'비즈니스 판단력이 있고 새로운 아이디어를 좋아하는 사람',
+       figure:'카카오벤처스, 소프트뱅크 벤처캐피탈'},
+      {n:'크라우드펀딩 플랫폼 기획자', tagline:'아이디어와 투자자를 연결하는 서비스를 만들어요', tags:['플랫폼','금융'], isNew:true, isMentor:false,
+       desc:'와디즈·텀블벅처럼 아이디어와 투자자를 연결하는 크라우드펀딩 서비스를 기획해요.',
+       do:'플랫폼 기획, 창작자·투자자 연결, 정책 설계',
+       fit:'사람들을 연결하고 새로운 프로젝트에 관심 있는 사람',
+       figure:'와디즈, 텀블벅 기획팀'},
+      {n:'M&A 전문가', tagline:'기업과 기업을 합쳐 더 큰 가치를 만들어요', tags:['금융','비즈니스'], isNew:false, isMentor:true,
+       desc:'기업 인수합병(M&A) 거래를 분석하고 성사시켜 두 기업을 더 강하게 만들어요.',
+       do:'기업 가치 분석, 거래 협상, 계약 체결 지원',
+       fit:'수리와 협상력을 모두 갖추고 큰 그림을 보는 사람',
+       figure:'국내 투자은행(IB) M&A팀, 카카오벤처스 심사역'},
+    ],
+    care:[
+      {n:'재무 상담사·자산관리사', tagline:'사람들이 돈 걱정 없이 미래를 준비하도록 도와요', tags:['금융','상담'], isNew:false, isMentor:false,
+       desc:'사람들이 돈 걱정 없이 미래를 준비할 수 있도록 맞춤 재무 계획을 세워줘요.',
+       do:'재무 분석, 투자 포트폴리오 설계, 세금 컨설팅',
+       fit:'수리 능력 있고 사람들의 걱정을 해결해주는 걸 좋아하는 사람',
+       figure:'프라이빗 뱅커, 자산관리 전문가'},
+      {n:'금융 복지 사회적 기업가', tagline:'저소득층도 금융 혜택을 누릴 수 있게 도와요', tags:['사회','금융'], isNew:true, isMentor:false,
+       desc:'저소득층도 금융 서비스를 이용할 수 있도록 돕는 사회적 기업을 운영해요.',
+       do:'서민 금융 상품 개발, 금융 교육, 사업 운영',
+       fit:'금융과 사회 문제 해결 모두에 관심 있는 사람',
+       figure:'신협, 사회연대은행'},
+      {n:'청소년 금융 교육 전문가', tagline:'10대에게 돈 관리법과 경제 개념을 가르쳐줘요', tags:['교육','금융'], isNew:true, isMentor:true,
+       desc:'중학생·고등학생이 돈을 올바르게 이해하고 경제적 독립을 준비할 수 있도록 가르쳐요.',
+       do:'금융 교육 커리큘럼 개발, 수업 진행, 교재 제작',
+       fit:'금융을 쉽게 설명할 수 있고 청소년과 소통하는 걸 좋아하는 사람',
+       figure:'금융감독원 금융교육센터, 청소년금융교육협의회'},
+    ],
+    share:[
+      {n:'경제 기자·칼럼니스트', tagline:'복잡한 경제를 쉽고 재미있게 전달해요', tags:['미디어','경제'], isNew:false, isMentor:false,
+       desc:'복잡한 경제 이슈를 쉽고 재미있게 기사와 칼럼으로 전달해요.',
+       do:'경제 취재, 기사 작성, 칼럼 연재',
+       fit:'경제·비즈니스에 밝고 글쓰기를 좋아하는 사람',
+       figure:'한국경제, 조선비즈 기자'},
+      {n:'금융 교육 크리에이터', tagline:'주식·저축·경제를 유튜브로 쉽게 가르쳐줘요', tags:['콘텐츠','금융'], isNew:true, isMentor:false,
+       desc:'주식, 저축, 경제 개념을 유튜브·SNS로 쉽게 가르쳐줘요.',
+       do:'금융 콘텐츠 기획·제작, 구독자 소통',
+       fit:'금융을 좋아하고 쉽게 설명하는 능력이 있는 사람',
+       figure:'신사임당 (유튜브 — 검색 가능), 삼프로TV'},
+      {n:'경제 유튜버', tagline:'어려운 경제 뉴스를 10대도 이해하게 쉽게 설명해줘요', tags:['유튜브','경제'], isNew:false, isMentor:true,
+       desc:'주식, 글로벌 경제, 트렌드 이슈를 누구나 이해할 수 있게 풀어 설명하는 크리에이터예요.',
+       do:'경제 콘텐츠 기획·제작, 구독자 소통, 브랜드 협업',
+       fit:'경제에 관심 있고 어렵고 복잡한 것을 쉽게 설명하는 사람',
+       figure:'슈카 (유튜브 슈카월드, 구독자 220만+ — 검색 가능)'},
+    ],
+    explore:[
+      {n:'경제학자·애널리스트', tagline:'데이터로 경제 흐름을 분석하고 예측해요', tags:['연구','경제'], isNew:false, isMentor:false,
+       desc:'시장, 경기, 기업 데이터를 분석해서 경제 흐름을 예측하고 연구해요.',
+       do:'데이터 분석, 보고서 작성, 투자 자문',
+       fit:'수학·사회 모두 좋아하고 분석하는 걸 즐기는 사람',
+       figure:'한국은행 연구원, 증권사 애널리스트'},
+      {n:'ESG 애널리스트', tagline:'기업의 환경·사회·지배구조 가치를 분석해요', tags:['연구','사회'], isNew:true, isMentor:false,
+       desc:'기업이 환경(E)·사회(S)·지배구조(G) 측면에서 얼마나 지속가능한지 분석해요.',
+       do:'ESG 데이터 분석, 리포트 작성, 투자 자문',
+       fit:'경제와 환경·사회 문제 모두에 관심 있는 사람',
+       figure:'ESG 평가기관, 자산운용사 ESG팀'},
+      {n:'행동경제학 연구자', tagline:'사람들이 왜 그런 경제적 선택을 하는지 연구해요', tags:['연구','심리'], isNew:true, isMentor:true,
+       desc:'사람들이 언제 충동구매를 하는지, 왜 저축을 못 하는지를 심리학·경제학으로 탐구해요.',
+       do:'행동 데이터 수집·분석, 실험 설계, 정책 제안',
+       fit:'경제와 사람 심리 두 가지 모두 흥미 있는 사람',
+       figure:'대니얼 카너먼 (노벨경제학상 — 유튜브 강연 검색 가능), 국내 행동경제학 연구자'},
+    ],
+    manage:[
+      {n:'투자 펀드 매니저', tagline:'고객 자산을 운용해서 최대의 수익을 만들어요', tags:['투자','경영'], isNew:false, isMentor:false,
+       desc:'고객의 돈을 대신 운용해서 수익을 만들어내는 금융 전문가예요.',
+       do:'투자 전략 수립, 포트폴리오 관리, 리스크 분석',
+       fit:'수리와 경제 분석을 잘하고 판단력이 빠른 사람',
+       figure:'미래에셋, KB자산운용 펀드 매니저'},
+      {n:'임팩트 투자 운용사', tagline:'사회적 가치와 수익을 동시에 추구하는 투자를 해요', tags:['투자','사회'], isNew:true, isMentor:false,
+       desc:'재무 수익과 사회적 가치를 동시에 추구하는 임팩트 투자 펀드를 운용해요.',
+       do:'임팩트 기업 발굴, 투자·운용, 성과 측정',
+       fit:'금융과 사회 변화 둘 다 중요하게 생각하는 사람',
+       figure:'소풍벤처스, 한국사회투자'},
+      {n:'경제 정책 기획관', tagline:'나라 경제가 더 잘 돌아가도록 정책을 설계해요', tags:['정책','경제'], isNew:false, isMentor:true,
+       desc:'정부에서 금융·세금·무역·산업 정책을 기획해 국가 경제를 설계하는 공무원이에요.',
+       do:'경제 정책 연구·입안, 예산 기획, 국제 협상',
+       fit:'큰 그림으로 경제 시스템을 설계하고 싶은 사람',
+       figure:'기획재정부, 한국은행 정책연구팀'},
+    ],
+  },
+};
+
+const CM_DEFAULT=(d,v)=>[{n:`${(D.find(x=>x.id===d)||{lbl:''}).lbl} × ${(V.find(x=>x.id===v)||{lbl:''}).lbl} 관련 직업`,tagline:'곧 업데이트될 예정이에요',tags:['준비 중'],isNew:false,isMentor:false,desc:'이 조합의 진로 정보는 곧 업데이트될 예정이에요.',do:'다양한 활동과 경험을 통해 탐구해보세요.',fit:'이 조합에 관심 있는 모든 사람',figure:'멘토 탐색 중'}];
+const MYB_MENTOR_BASE_URL='https://myb-mentoring.kr/mentors';
+const MYB_HOME_URL='https://myb-mentoring.kr';
+
+let s={step:0,verb:null,domain:null,path:null,career:null,expanded:null};
+const gv=id=>V.find(x=>x.id===id);
+const gd=id=>D.find(x=>x.id===id);
+const gp=id=>P.find(x=>x.id===id);
+const getCareers=(d,v)=>(CM[d]||{})[v]||CM_DEFAULT(d,v);
+const app=document.getElementById('myb');
+
+function prog(step){
+  return `<div class="prog">${[0,1,2,3,4].map(i=>`<div class="prog-dot ${i<step?'on':i===step?'half':''}"></div>`).join('')}</div>`;
+}
+
+function rIntro(){
+  return `<div style="padding:.5rem 0;">
+    <div style="text-align:center;margin-bottom:1.25rem;">
+      <div style="font-size:44px;margin-bottom:.65rem;">🌱</div>
+      <h1 style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:.5rem;">내 꿈의 방향 찾기</h1>
+      <p style="font-size:13px;color:#5a5a5a;line-height:1.75;">진로는 꼭 하나의 직업이 아니어도 돼요.<br>내가 어떤 사람인지를 먼저 알아보는 시간이에요.</p>
+    </div>
+    <div style="background:#f8f8f5;border-radius:12px;border:0.5px solid #e8e5df;padding:1.1rem;margin-bottom:1.25rem;">
+      <p style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:.85rem;">이렇게 진행돼요</p>
+      ${[['🔨','행동 키워드 선택','내가 좋아하는 방식을 골라요'],['🌍','관심 분야 선택','흥미 있는 세계를 골라요'],['✅','나만의 문장 완성','두 선택을 합쳐봐요'],['🛤️','진로 경로 선택','내 스타일에 맞는 길을 골라요'],['✨','진로 후보 3가지 & 멘토 연결','나에게 맞는 직업과 멘토를 만나요']].map(([ico,t,d])=>`<div class="intro-step"><div class="intro-ico">${ico}</div><div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">${t}</div><div style="font-size:11px;color:#888;">${d}</div></div></div>`).join('')}
+      <div style="border-top:0.5px solid #e8e5df;margin-top:.65rem;padding-top:.75rem;font-size:11px;color:#888;">⏱ 약 3~5분 소요 &nbsp;·&nbsp; 언제든지 다시 해볼 수 있어요</div>
+    </div>
+    <button class="btn-main" onclick="go(1)">시작하기 →</button>
+    <p style="font-size:11px;color:#aaa;text-align:center;margin-top:.75rem;">MYB 멘토링 · 오리진디자인 × 아모레퍼시픽 CSR</p>
+  </div>`;
+}
+
+function rVerb(){
+  return `${prog(0)}
+    <span class="step-hint">1단계 · 행동 키워드 선택</span>
+    <p class="sc-title">나는 이런 걸 할 때 신나요</p>
+    <p class="sc-sub">아래 6가지 중에서 "이게 나야!" 싶은 걸 하나 골라주세요.<br>완벽하지 않아도 괜찮아요, 가장 가까운 걸 직관적으로 골라봐요.</p>
+    <div class="tip">💡 고르기 어려울 땐 예시를 보고 골라봐요. 지금 잘 못해도 관심 있으면 OK!</div>
+    <div class="grid2">${V.map(v=>`<div class="card${s.verb===v.id?' sel':''}" style="${s.verb===v.id?`border-color:${v.c};background:${v.bg};`:''}" onclick="sv('${v.id}')"><span class="c-ico">${v.e}</span><div class="c-lbl">${v.lbl}</div><div style="font-size:11px;font-weight:600;color:${s.verb===v.id?v.c:'#888'};margin-bottom:4px;">${v.tagline}</div><div class="c-eg">${v.ex}</div></div>`).join('')}</div>
+    ${s.verb?`<div class="tip">"${gv(s.verb)?.lbl}" 선택됨 ✓<br>${gv(s.verb)?.desc}</div>`:''}
+    <button class="btn-main" ${!s.verb?'disabled':''} onclick="go(2)">다음으로 →</button>`;
+}
+
+function rDomain(){
+  const v=gv(s.verb);
+  return `${prog(1)}
+    <button class="back" onclick="go(1)">← 이전</button>
+    <span class="step-hint">2단계 · 관심 분야 선택</span>
+    <p class="sc-title">어떤 세계가 끌리나요?</p>
+    <p class="sc-sub">아까 고른 <span style="font-weight:700;color:${v?.c};">"${v?.lbl}"</span>을 어떤 분야에서 하고 싶은지 골라보세요.</p>
+    <div class="tip">💡 지금 잘 못해도 괜찮아요. 관심 있거나 해보고 싶은 세계를 골라요.</div>
+    <div class="grid2">${D.map(d=>`<div class="card${s.domain===d.id?' sel':''}" style="${s.domain===d.id?`border-color:${d.c};background:${d.bg};`:''}" onclick="sd('${d.id}')"><span class="c-ico">${d.e}</span><div class="c-lbl">${d.lbl}</div><div style="font-size:11px;font-weight:600;color:${s.domain===d.id?d.c:'#888'};margin-bottom:4px;">${d.tagline}</div><div class="c-eg">${d.ex}</div></div>`).join('')}</div>
+    ${s.domain?`<div class="tip">"${gd(s.domain)?.lbl}" 선택됨 ✓<br>${gd(s.domain)?.desc}</div>`:''}
+    <button class="btn-main" ${!s.domain?'disabled':''} onclick="go(3)">다음으로 →</button>`;
+}
+
+function rConfirm(){
+  const v=gv(s.verb),d=gd(s.domain);
+  return `${prog(2)}
+    <button class="back" onclick="go(2)">← 이전</button>
+    <span class="step-hint">3단계 · 나만의 문장 완성</span>
+    <p class="sc-title">내 선택을 확인해봐요</p>
+    <p class="sc-sub">두 가지를 골랐어요. 내용을 확인하고 맞으면 계속 진행해요.</p>
+    <div class="confirm-section" style="margin-bottom:1rem;">
+      <div class="conf-item"><div class="conf-num">1</div><div><div class="conf-lbl">행동 키워드 (내가 좋아하는 방식)</div><div class="conf-val">${v?.e} ${v?.lbl} — ${v?.tagline}</div><div style="font-size:11px;color:#888;margin-top:3px;">${v?.desc}</div></div></div>
+      <div class="conf-item"><div class="conf-num">2</div><div><div class="conf-lbl">관심 분야 (내가 끌리는 세계)</div><div class="conf-val">${d?.e} ${d?.lbl} — ${d?.tagline}</div><div style="font-size:11px;color:#888;margin-top:3px;">${d?.desc}</div></div></div>
+    </div>
+    <p style="font-size:12px;color:#888;text-align:center;margin-bottom:.6rem;">두 선택을 합치면 이런 문장이 돼요</p>
+    <div class="sentence-box">나는 <span class="hl" style="background:${v?.bg};color:${v?.c};">${v?.e} ${v?.lbl}</span> 것을 좋아하는<br><span class="hl" style="background:${d?.bg};color:${d?.c};">${d?.e} ${d?.lbl}</span> 쪽에 관심이 있어요</div>
+    <p style="font-size:11px;color:#888;text-align:center;margin-bottom:1rem;">이 문장이 나를 완벽하게 설명하지 않아도 괜찮아요.<br>지금 이 순간의 나를 보여주는 힌트예요 🌱</p>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-sec" style="flex:1;padding:12px;" onclick="go(2)">다시 고를게요</button>
+      <button class="btn-main" style="flex:2;" onclick="go(4)">맞아요, 계속할게요 →</button>
+    </div>`;
+}
+
+function rPath(){
+  return `${prog(3)}
+    <button class="back" onclick="go(3)">← 이전</button>
+    <span class="step-hint">4단계 · 진로 경로 선택</span>
+    <p class="sc-title">꿈을 향한 길, 어떻게 가고 싶어요?</p>
+    <p class="sc-sub">진로로 가는 방법은 여러 가지예요. 가장 관심 있는 길을 골라보세요.<br>지금 확실하지 않아도 괜찮아요.</p>
+    ${P.map(p=>`<div class="path-row${s.path===p.id?' sel':''}" onclick="sp('${p.id}')"><span style="font-size:20px;flex-shrink:0;">${p.e}</span><div><div class="path-lbl">${p.lbl}</div><div class="path-desc">${p.d}</div>${s.path===p.id?`<div style="font-size:11px;color:#0F6E56;margin-top:5px;font-weight:600;">다음 단계: ${p.next}</div>`:''}</div></div>`).join('')}
+    <button class="btn-main" style="margin-top:.75rem;" ${!s.path?'disabled':''} onclick="go(5)">진로 후보 보기 →</button>`;
+}
+
+function rCareers(){
+  const v=gv(s.verb),d=gd(s.domain);
+  const careers=getCareers(s.domain,s.verb);
+  return `${prog(4)}
+    <button class="back" onclick="go(4)">← 이전</button>
+    <span class="step-hint">5단계 · 진로 추천</span>
+    <p class="sc-title">나에게 맞는 진로 유형은?</p>
+    <p class="sc-sub">${d?.e} <strong>${d?.lbl}</strong> × ${v?.e} <strong>${v?.lbl}</strong> 조합이에요.<br>3가지를 살펴보고 <strong>가장 나다운 것</strong>을 골라봐요.</p>
+    ${careers.map((c,i)=>{
+      const isSel=s.career===c.n;
+      const isExp=s.expanded===i;
+      return `<div class="ccard${isSel?' sel':''}" onclick="sc('${c.n.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}',event)">
+        <div class="cchead">
+          <div style="flex:1;min-width:0;">
+            <div class="ccname">${c.n}${c.isNew?`<span class="badge-new">NEW</span>`:''}${c.isMentor?`<span class="badge-mentor">🔮 MYB 멘토 예정</span>`:''}</div>
+            <div style="margin-bottom:5px;">${c.tags.map(t=>`<span class="tag" style="background:${d?.bg};color:${d?.c};">${t}</span>`).join('')}</div>
+            <div class="cc-tagline">"${c.tagline}"</div>
+          </div>
+          <div class="cc-sel-mark ${isSel?'on':'off'}">${isSel?'✓':''}</div>
+        </div>
+        <div class="cc-toggle" onclick="event.stopPropagation();toggle(${i});">
+          <span style="font-size:11px;">${isExp?'▲ 접기':'▼ 자세히 보기'}</span>
+        </div>
+        ${isExp?`<div class="ccbody">
+          <p style="font-size:13px;color:#1a1a1a;line-height:1.65;margin-bottom:.85rem;">${c.desc}</p>
+          <div class="info-row"><span class="info-ico">🔧</span><span class="info-lbl">주요 업무</span><span class="info-txt">${c.do}</span></div>
+          <div class="info-row"><span class="info-ico">💚</span><span class="info-lbl">이런 사람</span><span class="info-txt">${c.fit}</span></div>
+          <div class="info-row"><span class="info-ico">🌟</span><span class="info-lbl">대표 인물</span><span class="info-txt">${c.figure}</span></div>
+          ${c.isMentor
+            ?`<div class="mentor-box"><div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:4px;">🔮 MYB 멘토 예정이에요</div><div style="font-size:11px;color:#7B5AAB;line-height:1.55;">이 분야의 멘토가 곧 MYB 멘토링에 합류할 예정이에요!<br>기대해 주세요 — 지금 진로를 선택해두면 멘토가 추가될 때 바로 연결돼요.</div></div>`
+            :`<a class="mentor-link" href="${MYB_MENTOR_BASE_URL}?career=${encodeURIComponent(c.n)}" target="_blank" onclick="event.stopPropagation()"><div><div style="font-weight:600;color:#1a1a1a;font-size:12px;">🧑‍💼 이 진로의 MYB 멘토 보기</div><div style="font-size:11px;margin-top:2px;color:#888;">Meet Your Beauty 멘토링 사이트에서 만나보세요</div></div><span style="color:#888;font-size:13px;">→</span></a>`
+          }
+        </div>`:''}
+      </div>`;
+    }).join('')}
+    <div style="margin-top:1.25rem;background:#f8f8f5;border-radius:var(--radius);padding:1rem;border:0.5px solid var(--border);font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:.75rem;">
+      💡 카드를 <strong>탭</strong>하면 선택돼요. <strong>▼ 자세히 보기</strong>를 누르면 더 많은 정보를 확인할 수 있어요.
+    </div>
+    <button class="btn-main" ${!s.career?'disabled':''} onclick="go(6)">내 진로 카드 완성하기 →</button>`;
+}
+
+function rFinal(){
+  const v=gv(s.verb),d=gd(s.domain),p=gp(s.path);
+  const careers=getCareers(s.domain,s.verb);
+  const chosenCareer=careers.find(c=>c.n===s.career)||{isMentor:false};
+  return `<div style="text-align:center;margin-bottom:1.25rem;">
+    <div style="font-size:38px;margin-bottom:.5rem;">🎉</div>
+    <p class="sc-title">진로 카드 완성!</p>
+    <p style="font-size:12px;color:#888;">선생님, 부모님과 함께 이야기해보세요</p>
+  </div>
+  <div class="final-card">
+    <div style="padding:1rem 1.25rem;background:${d?.bg};">
+      <div style="font-size:11px;color:${d?.c};font-weight:600;margin-bottom:3px;">나의 진로 카드</div>
+      <div style="font-size:16px;font-weight:700;color:#1a1a1a;">${d?.e} ${d?.lbl} × ${v?.e} ${v?.lbl}</div>
+    </div>
+    <div style="padding:.25rem 0;">
+      <div class="srow"><span class="skey">관심 분야</span><span class="sval">${d?.e} ${d?.lbl}</span></div>
+      <div class="srow"><span class="skey">좋아하는 방식</span><span class="sval">${v?.e} ${v?.lbl}</span></div>
+      <div class="srow"><span class="skey">선택한 진로</span><span class="sval">${s.career}</span></div>
+      <div class="srow"><span class="skey">진로 경로</span><span class="sval">${p?.e} ${p?.lbl}</span></div>
+      <div class="srow"><span class="skey">다음 단계</span><span class="sval" style="font-size:11px;">${p?.next}</span></div>
+    </div>
+  </div>
+  <div style="margin-bottom:1.25rem;">
+    <p style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:.65rem;">🌟 나와 비슷한 길을 걷고 있는 멘토를 만나보세요</p>
+    ${chosenCareer.isMentor
+      ?`<div style="background:var(--purple-light);border:1.5px solid var(--purple-border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:.65rem;">
+          <div style="font-size:13px;font-weight:700;color:var(--purple);margin-bottom:5px;">🔮 <strong>${s.career}</strong> 분야 멘토 — 곧 만날 수 있어요!</div>
+          <div style="font-size:12px;color:#7B5AAB;line-height:1.6;">이 진로의 MYB 멘토가 곧 합류할 예정이에요. 지금 MYB 사이트에서 다른 분야 멘토들을 먼저 만나보고, 알림을 신청해두세요!</div>
+        </div>`
+      :`<a class="mentor-link" href="${MYB_MENTOR_BASE_URL}?career=${encodeURIComponent(s.career)}&domain=${s.domain}&verb=${s.verb}" target="_blank" style="margin-bottom:.65rem;display:flex;">
+          <div><div style="font-weight:600;color:#1a1a1a;font-size:12px;">🧑‍💼 <strong>${s.career}</strong> 진로의 MYB 멘토 보기</div><div style="font-size:11px;margin-top:2px;color:#888;">나와 비슷한 진로를 가진 멘토를 만나보세요</div></div>
+          <span style="color:#888;font-size:14px;margin-left:auto;">→</span>
+        </a>`
+    }
+    <a class="myb-cta" href="${MYB_HOME_URL}?domain=${s.domain}&verb=${s.verb}&career=${encodeURIComponent(s.career||'')}" target="_blank">
+      <div class="myb-cta-ico">👋</div>
+      <div class="myb-cta-txt">
+        <div class="myb-cta-title">MYB에서 나의 진로 멘토를 만나보세요</div>
+        <div class="myb-cta-sub">Meet Your Beauty 멘토링 사이트에서<br>나에게 딱 맞는 멘토를 직접 구경해요 →</div>
+      </div>
+    </a>
+  </div>
+  <button class="btn-main" onclick="restart()">처음부터 다시 해볼게요</button>
+  <p style="font-size:11px;color:#aaa;text-align:center;margin-top:.75rem;">MYB 멘토링 · 오리진디자인 × 아모레퍼시픽 CSR</p>`;
+}
+
+function go(step){s.step=step;if(step===5)s.expanded=null;render();}
+function sv(id){s.verb=id;render();}
+function sd(id){s.domain=id;render();}
+function sp(id){s.path=id;render();}
+function sc(n,e){if(e)e.stopPropagation();s.career=(s.career===n?null:n);render();}
+function toggle(i){s.expanded=s.expanded===i?null:i;render();}
+function restart(){s={step:0,verb:null,domain:null,path:null,career:null,expanded:null};render();}
+function render(){
+  const screens=[rIntro,rVerb,rDomain,rConfirm,rPath,rCareers,rFinal];
+  app.innerHTML=(screens[s.step]||rIntro)();
+}
+render();
+</script>
+</body>
+</html>
